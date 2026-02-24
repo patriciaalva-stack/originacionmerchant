@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant Products - Casos de Uso y Flowchart</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #3498db;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #e74c3c;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card.legacy {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .product-card.new {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .product-card h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 5px;
+        }
+
+        .use-case {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+        }
+
+        .use-case-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .scenario {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .scenario strong {
+            color: #e74c3c;
+        }
+
+        .rules {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .rules h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+
+        .rule-item {
+            padding: 10px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .flowchart-container {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            text-align: center;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+        }
+
+        .legend-box.legacy {
+            background: #f5576c;
+        }
+
+        .legend-box.new {
+            background: #00f2fe;
+        }
+
+        .legend-box.compatible {
+            background: #2ecc71;
+        }
+
+        .legend-box.incompatible {
+            background: #e74c3c;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            background: #ecf0f1;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: #d5dbdb;
+        }
+
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .btn-primary {
+            background: #3498db;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-success {
+            background: #2ecc71;
+        }
+
+        .btn-success:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .tabs, .button-group {
+                display: none;
+            }
+            .tab-content {
+                display: block !important;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 Merchant Products</h1>
+        <p class="subtitle">Casos de Uso y Flowchart de Convivencia de Productos</p>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview', this)">📊 Overview</button>
+            <button class="tab" onclick="showTab('usecases', this)">📝 Casos de Uso</button>
+            <button class="tab" onclick="showTab('flowchart', this)">🔀 Flowchart</button>
+            <button class="tab" onclick="showTab('rules', this)">⚠️ Reglas</button>
+        </div>
+
+        <!-- TAB 1: OVERVIEW -->
+        <div id="overview" class="tab-content active">
+            <div class="section">
+                <h2>Productos Legacy</h2>
+                <div class="products-grid">
+                    <div class="product-card legacy">
+                        <h4>💰 Préstamo en Cuotas Fijas</h4>
+                        <p>Préstamo tradicional con cuotas fijas mensuales. Es excluyente con PPV.</p>
+                    </div>
+                    <div class="product-card legacy">
+                        <h4>⚡ Dinero Express</h4>
+                        <p>Adelanto rápido de dinero. Puede convivir con la mayoría de productos.</p>
+                    </div>
+                    <div class="product-card legacy">
+                        <h4>📈 Préstamo por Porcentaje de Ventas (PPV)</h4>
+                        <p><strong>Solo Brasil.</strong> Se descuenta un porcentaje de ventas. Es excluyente con Cuotas Fijas.</p>
+                    </div>
+                    <div class="product-card legacy">
+                        <h4>💵 Adelanto de Dinero</h4>
+                        <p>Adelanto sobre ventas futuras. Compatible con varios productos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Nuevos Productos</h2>
+                <div class="products-grid">
+                    <div class="product-card new">
+                        <h4>🏦 Línea de Crédito</h4>
+                        <p><strong>3 modalidades:</strong></p>
+                        <ul style="margin-top: 10px; margin-left: 20px;">
+                            <li><strong>Fondeo:</strong> Sustituye a Cuotas Fijas</li>
+                            <li><strong>Consumo:</strong> Para gastos personales</li>
+                            <li><strong>Full:</strong> Fondeo + Consumo</li>
+                        </ul>
+                        <p style="margin-top: 10px;">✅ Se puede activar con Cuotas Fijas o Dinero Express activo</p>
+                    </div>
+                    <div class="product-card new">
+                        <h4>🇧🇷 Préstamo FGBS</h4>
+                        <p>Préstamo garantizado por el gobierno brasileño.</p>
+                        <p style="margin-top: 10px;">✅ Puede convivir con PPV y Dinero Express</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-box legacy"></div>
+                    <span>Producto Legacy</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box new"></div>
+                    <span>Producto Nuevo</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box compatible"></div>
+                    <span>Compatible</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box incompatible"></div>
+                    <span>Incompatible</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: CASOS DE USO -->
+        <div id="usecases" class="tab-content">
+            <div class="section">
+                <h2>Casos de Uso Detallados</h2>
+
+                <div class="use-case">
+                    <div class="use-case-title">📋 Caso 1: Merchant con Cuotas Fijas Activo</div>
+                    <div class="scenario">
+                        <strong>Estado Inicial:</strong> Merchant tiene un Préstamo en Cuotas Fijas activo<br><br>
+                        <strong>Opciones Disponibles:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>✅ Puede activar Línea de Crédito (Fondeo sustituye el Cuotas Fijas)</li>
+                            <li>✅ Puede solicitar Dinero Express (convivencia permitida)</li>
+                            <li>✅ Puede solicitar Adelanto de Dinero</li>
+                            <li>❌ NO puede tener PPV (excluyente)</li>
+                        </ul><br>
+                        <strong>Resultado:</strong> Al activar Línea de Crédito Fondeo, el Cuotas Fijas se sustituye automáticamente.
+                    </div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">📋 Caso 2: Merchant en Brasil con PPV</div>
+                    <div class="scenario">
+                        <strong>Estado Inicial:</strong> Merchant brasileño con PPV activo<br><br>
+                        <strong>Opciones Disponibles:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>✅ Puede solicitar Préstamo FGBS (convivencia permitida)</li>
+                            <li>✅ Puede solicitar Dinero Express</li>
+                            <li>✅ Puede solicitar Adelanto de Dinero</li>
+                            <li>❌ NO puede tener Cuotas Fijas (excluyente)</li>
+                            <li>⚠️ Si activa Línea de Crédito Fondeo, debe cancelar PPV primero</li>
+                        </ul><br>
+                        <strong>Resultado:</strong> Puede tener múltiples productos activos simultáneamente.
+                    </div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">📋 Caso 3: Merchant con Dinero Express</div>
+                    <div class="scenario">
+                        <strong>Estado Inicial:</strong> Merchant con Dinero Express activo<br><br>
+                        <strong>Opciones Disponibles:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>✅ Puede activar Línea de Crédito (cualquier modalidad)</li>
+                            <li>✅ Puede solicitar Cuotas Fijas</li>
+                            <li>✅ Puede solicitar PPV (solo Brasil)</li>
+                            <li>✅ Puede solicitar FGBS (solo Brasil)</li>
+                            <li>✅ Puede solicitar Adelanto de Dinero</li>
+                        </ul><br>
+                        <strong>Resultado:</strong> Dinero Express es el producto más flexible, convive con casi todos.
+                    </div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">📋 Caso 4: Merchant sin Productos Activos</div>
+                    <div class="scenario">
+                        <strong>Estado Inicial:</strong> Merchant nuevo sin productos financieros<br><br>
+                        <strong>Opciones Disponibles:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>✅ Puede solicitar Línea de Crédito (Fondeo, Consumo o Full)</li>
+                            <li>✅ Puede solicitar Cuotas Fijas</li>
+                            <li>✅ Puede solicitar Dinero Express</li>
+                            <li>✅ Puede solicitar PPV (solo Brasil)</li>
+                            <li>✅ Puede solicitar FGBS (solo Brasil)</li>
+                            <li>✅ Puede solicitar Adelanto de Dinero</li>
+                        </ul><br>
+                        <strong>Recomendación:</strong> Evaluar necesidad (fondeo vs consumo) y comenzar con Línea de Crédito Full para máxima flexibilidad.
+                    </div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">📋 Caso 5: Migración de Cuotas Fijas a Línea de Crédito</div>
+                    <div class="scenario">
+                        <strong>Estado Inicial:</strong> Merchant con Cuotas Fijas quiere migrar<br><br>
+                        <strong>Proceso:</strong>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>Merchant solicita Línea de Crédito Fondeo</li>
+                            <li>Sistema verifica elegibilidad</li>
+                            <li>Si aprueba, el Cuotas Fijas se sustituye automáticamente</li>
+                            <li>Merchant ahora tiene Línea de Crédito Fondeo activa</li>
+                        </ol><br>
+                        <strong>Ventaja:</strong> Mayor flexibilidad de uso y puede agregar modalidad Consumo después.
+                    </div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">📋 Caso 6: Merchant Brasileño con Múltiples Productos</div>
+                    <div class="scenario">
+                        <strong>Escenario Complejo:</strong> Merchant en Brasil con estrategia multi-producto<br><br>
+                        <strong>Combinación Posible:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>✅ PPV activo (para descuento por ventas)</li>
+                            <li>✅ FGBS activo (préstamo garantizado)</li>
+                            <li>✅ Dinero Express (para emergencias)</li>
+                            <li>✅ Adelanto de Dinero (liquidez inmediata)</li>
+                        </ul><br>
+                        <strong>Restricción:</strong> No puede tener Cuotas Fijas ni Línea de Crédito Fondeo mientras tenga PPV activo.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: FLOWCHART -->
+        <div id="flowchart" class="tab-content">
+            <div class="section">
+                <h2>Flowchart de Convivencia de Productos</h2>
+                <p style="text-align: center; color: #7f8c8d; margin-bottom: 20px;">
+                    Este diagrama muestra las relaciones de compatibilidad entre todos los productos
+                </p>
+
+                <div class="flowchart-container">
+                    <div class="mermaid">
+graph TB
+    Start(["Merchant Solicita Producto"]) --> HasProducts{"Tiene productos activos?"}
+
+    HasProducts -->|No| NewMerchant["Merchant Nuevo"]
+    HasProducts -->|Si| CheckCurrent["Verificar Productos Actuales"]
+
+    NewMerchant --> AllProducts["Puede solicitar cualquier producto"]
+    AllProducts --> LC["Linea de Credito"]
+    AllProducts --> CF["Cuotas Fijas"]
+    AllProducts --> DE["Dinero Express"]
+    AllProducts --> PPV["PPV - Solo Brasil"]
+    AllProducts --> FGBS["FGBS - Solo Brasil"]
+    AllProducts --> AD["Adelanto de Dinero"]
+
+    CheckCurrent --> HasCF{"Tiene Cuotas Fijas?"}
+    CheckCurrent --> HasPPV{"Tiene PPV?"}
+    CheckCurrent --> HasDE{"Tiene Dinero Express?"}
+
+    HasCF -->|Si| CFOptions["Opciones con CF Activo"]
+    CFOptions --> CFtoLC["OK: Puede migrar a LC Fondeo"]
+    CFOptions --> CFaddDE["OK: Puede agregar Dinero Express"]
+    CFOptions --> CFaddAD["OK: Puede agregar Adelanto Dinero"]
+    CFOptions --> CFnoPPV["NO puede agregar PPV"]
+
+    CFtoLC --> Substitute["CF se sustituye por LC Fondeo"]
+
+    HasPPV -->|Si| PPVOptions["Opciones con PPV Activo"]
+    PPVOptions --> PPVaddFGBS["OK: Puede agregar FGBS"]
+    PPVOptions --> PPVaddDE["OK: Puede agregar Dinero Express"]
+    PPVOptions --> PPVaddAD["OK: Puede agregar Adelanto Dinero"]
+    PPVOptions --> PPVnoCF["NO puede Cuotas Fijas"]
+    PPVOptions --> PPVnoLC["CONDICIONAL: NO puede LC Fondeo sin cancelar PPV"]
+
+    HasDE -->|Si| DEOptions["Opciones con DE Activo"]
+    DEOptions --> DEaddLC["OK: Puede activar LC cualquier modalidad"]
+    DEOptions --> DEaddCF["OK: Puede agregar Cuotas Fijas"]
+    DEOptions --> DEaddPPV["OK: Puede agregar PPV - Brasil"]
+    DEOptions --> DEaddFGBS["OK: Puede agregar FGBS - Brasil"]
+    DEOptions --> DEaddAD["OK: Puede agregar Adelanto Dinero"]
+
+    LC --> LCModes{"Modalidad LC"}
+    LCModes --> LCFondeo["Fondeo: Sustituye CF"]
+    LCModes --> LCConsumo["Consumo: Gastos personales"]
+    LCModes --> LCFull["Full: Fondeo + Consumo"]
+
+    style Start fill:#667eea,color:#fff
+    style NewMerchant fill:#2ecc71,color:#fff
+    style CFtoLC fill:#3498db,color:#fff
+    style Substitute fill:#e74c3c,color:#fff
+    style CFnoPPV fill:#e74c3c,color:#fff
+    style PPVnoCF fill:#e74c3c,color:#fff
+    style PPVnoLC fill:#f39c12,color:#fff
+    style LC fill:#00f2fe,color:#000
+    style FGBS fill:#00f2fe,color:#000
+    style CF fill:#f5576c,color:#fff
+    style PPV fill:#f5576c,color:#fff
+    style DE fill:#f5576c,color:#fff
+    style AD fill:#f5576c,color:#fff
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Flowchart</button>
+                    <button class="btn btn-success" onclick="copyDiagram()">📋 Copiar Código Mermaid</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: REGLAS -->
+        <div id="rules" class="tab-content">
+            <div class="section">
+                <h2>Reglas de Convivencia y Restricciones</h2>
+
+                <div class="rules">
+                    <h3>🚫 Reglas de Exclusión</h3>
+                    <div class="rule-item">
+                        <strong>Regla 1:</strong> Cuotas Fijas y PPV son EXCLUYENTES<br>
+                        <em>Si un merchant tiene uno, no puede tener el otro simultáneamente.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Regla 2:</strong> Línea de Crédito Fondeo SUSTITUYE a Cuotas Fijas<br>
+                        <em>Al activar LC Fondeo, el préstamo Cuotas Fijas se reemplaza automáticamente.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Regla 3:</strong> PPV solo está disponible en Brasil<br>
+                        <em>Este producto es exclusivo para merchants brasileños.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Regla 4:</strong> FGBS solo está disponible en Brasil<br>
+                        <em>Préstamo garantizado por gobierno, exclusivo de Brasil.</em>
+                    </div>
+                </div>
+
+                <div class="rules" style="background: #d4edda; border-color: #28a745;">
+                    <h3 style="color: #155724;">✅ Reglas de Compatibilidad</h3>
+                    <div class="rule-item">
+                        <strong>Compatible 1:</strong> Dinero Express convive con casi todos los productos<br>
+                        <em>Es el producto más flexible del portafolio.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Compatible 2:</strong> PPV y FGBS pueden convivir<br>
+                        <em>Son productos diferentes y complementarios.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Compatible 3:</strong> Adelanto de Dinero convive con todos<br>
+                        <em>No tiene restricciones de convivencia.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Compatible 4:</strong> Línea de Crédito puede activarse con CF o DE activos<br>
+                        <em>No es necesario cancelar productos existentes para activarla.</em>
+                    </div>
+                </div>
+
+                <div class="rules" style="background: #cce5ff; border-color: #004085;">
+                    <h3 style="color: #004085;">📊 Tabla de Compatibilidad</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Producto Base</th>
+                                <th>Cuotas Fijas</th>
+                                <th>PPV</th>
+                                <th>Dinero Express</th>
+                                <th>LC Fondeo</th>
+                                <th>FGBS</th>
+                                <th>Adelanto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: bold;">Cuotas Fijas</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">❌</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">🔄</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">PPV (Brasil)</td>
+                                <td style="text-align: center;">❌</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">⚠️</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Dinero Express</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">LC Fondeo</td>
+                                <td style="text-align: center;">🔄</td>
+                                <td style="text-align: center;">⚠️</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">FGBS (Brasil)</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Adelanto Dinero</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 5px;">
+                        <strong>Leyenda:</strong><br>
+                        ✅ Compatible (pueden convivir)<br>
+                        ❌ Incompatible (excluyentes)<br>
+                        🔄 Sustituye (LC Fondeo reemplaza a Cuotas Fijas)<br>
+                        ⚠️ Condicional (debe cancelar PPV primero para activar LC Fondeo)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #e2e8f0; color: #718096;">
+            <p>📄 Documento generado: 2026-02-17 | Versión 3.0</p>
+            <p>MercadoLibre - Merchant Credit Products</p>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: false,
+                curve: 'basis'
+            }
+        });
+
+        let flowchartRendered = false;
+
+        function showTab(tabName, btn) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            const tabButtons = document.querySelectorAll('.tab');
+            tabButtons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            btn.classList.add('active');
+
+            if (tabName === 'flowchart' && !flowchartRendered) {
+                flowchartRendered = true;
+                setTimeout(() => {
+                    mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
+                }, 100);
+            }
+        }
+
+        function copyDiagram() {
+            const diagramText = document.querySelector('.mermaid').textContent;
+            navigator.clipboard.writeText(diagramText).then(() => {
+                alert('✅ Código Mermaid copiado al portapapeles!\n\nPuedes pegarlo en:\n- FigJam (con plugin Mermaid)\n- GitHub (markdown con ```mermaid)\n- Notion\n- Confluence');
+            }).catch(err => {
+                alert('Para copiar, selecciona el texto del diagrama manualmente.');
+            });
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @media print {
+                body { background: white; }
+                .container { box-shadow: none; }
+                .tabs, .button-group { display: none; }
+                .tab-content { display: block !important; page-break-inside: avoid; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

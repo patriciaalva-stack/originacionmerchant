@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "frontender-native": {
+      "type": "http",
+      "url": "https://frontender-native-mcp.melioffice.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${FRONTENDER_NATIVE_TOKEN}"
+      }
+    },
+    "Figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${FIGMA_ACCESS_TOKEN}"
+      }
+    },
+    "frontender-web-mcp": {
+      "type": "http",
+      "url": "https://frontender-web-mcp.melioffice.com/mcp"
+    }
+  }
+}
