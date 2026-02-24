@@ -318,9 +318,9 @@
 
         <div class="tabs">
             <button class="tab active" onclick="showTab('overview', this)">📊 Overview</button>
-            <button class="tab" onclick="showTab('usecases', this)">📝 Casos de Uso</button>
+            <button class="tab" onclick="showTab('rules', this)">⚠️ Reglas de Convivencia</button>
             <button class="tab" onclick="showTab('flowchart', this)">🔀 Flowchart</button>
-            <button class="tab" onclick="showTab('rules', this)">⚠️ Reglas</button>
+            <button class="tab" onclick="showTab('usecases', this)">📝 Casos de Uso</button>
         </div>
 
         <!-- TAB 1: OVERVIEW -->
@@ -338,11 +338,11 @@
                     </div>
                     <div class="product-card legacy">
                         <h4>📈 Préstamo por Porcentaje de Ventas (PPV)</h4>
-                        <p><strong>Solo Brasil.</strong> Se descuenta un porcentaje de ventas. Es excluyente con Cuotas Fijas.</p>
+                        <p><strong>Solo Brasil.</strong> Se descuenta un porcentaje de ventas. Es excluyente con Cuotas Fijas, LC Fondeo y LC Full.</p>
                     </div>
                     <div class="product-card legacy">
                         <h4>💵 Adelanto de Dinero</h4>
-                        <p>Adelanto sobre ventas futuras. Compatible con varios productos.</p>
+                        <p>Adelanto sobre ventas futuras. Compatible con todos los productos.</p>
                     </div>
                 </div>
             </div>
@@ -352,13 +352,15 @@
                 <div class="products-grid">
                     <div class="product-card new">
                         <h4>🏦 Línea de Crédito</h4>
-                        <p><strong>3 modalidades:</strong></p>
+                        <p><strong>3 tipos</strong> (el merchant puede tener solo uno de estos tipos):</p>
                         <ul style="margin-top: 10px; margin-left: 20px;">
-                            <li><strong>Fondeo:</strong> Sustituye a Cuotas Fijas</li>
-                            <li><strong>Consumo:</strong> Para gastos personales</li>
+                            <li><strong>Fondeo:</strong> Reemplaza CF como producto de fondeo del negocio</li>
+                            <li><strong>Consumo:</strong> BNPL (compras en ML y pagos en MP)</li>
                             <li><strong>Full:</strong> Fondeo + Consumo</li>
                         </ul>
-                        <p style="margin-top: 10px;">✅ Se puede activar con Cuotas Fijas o Dinero Express activo</p>
+                        <p style="margin-top: 10px;">✅ Se puede activar con CF o Dinero Express activos</p>
+                        <p style="margin-top: 5px;">⚠️ Si hay CF activo al encender Fondeo, <strong>ambos corren simultáneamente</strong>: el CF Legacy se liquida según sus términos y el siguiente préstamo de fondeo ya es Línea</p>
+                        <p style="margin-top: 5px;">❌ LC Fondeo y Full son incompatibles con PPV</p>
                     </div>
                     <div class="product-card new">
                         <h4>🇧🇷 Préstamo FGBS</h4>
@@ -388,7 +390,238 @@
             </div>
         </div>
 
-        <!-- TAB 2: CASOS DE USO -->
+        <!-- TAB 2: REGLAS DE CONVIVENCIA -->
+        <div id="rules" class="tab-content">
+            <div class="section">
+                <h2>Reglas de Convivencia y Restricciones</h2>
+
+                <div class="rules">
+                    <h3>🚫 Reglas de Exclusión</h3>
+                    <div class="rule-item">
+                        <strong>Regla 1:</strong> Cuotas Fijas y PPV son EXCLUYENTES<br>
+                        <em>Si un merchant tiene uno, no puede tener el otro simultáneamente.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Regla 2:</strong> LC Fondeo y CF Legacy pueden correr simultáneamente<br>
+                        <em>El merchant puede solicitar LC Fondeo mientras tiene un CF activo. Ambos préstamos corren al mismo tiempo: el CF Legacy se liquida según sus términos originales y el siguiente préstamo de fondeo ya se emite como Línea. No hay sustitución inmediata.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Regla 3:</strong> PPV solo está disponible en Brasil<br>
+                        <em>Este producto es exclusivo para merchants brasileños.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Regla 4:</strong> FGBS solo está disponible en Brasil<br>
+                        <em>Préstamo garantizado por gobierno, exclusivo de Brasil.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Regla 5:</strong> Línea de Crédito Fondeo y Full excluyen a PPV<br>
+                        <em>Un merchant con PPV activo no puede activar LC Fondeo ni LC Full. Sin embargo, sí puede activar LC Consumo, ya que no compite con el mecanismo de fondeo del negocio.</em>
+                    </div>
+                </div>
+
+                <div class="rules" style="background: #d4edda; border-color: #28a745;">
+                    <h3 style="color: #155724;">✅ Reglas de Compatibilidad</h3>
+                    <div class="rule-item">
+                        <strong>Compatible 1:</strong> Dinero Express convive con casi todos los productos<br>
+                        <em>Es el producto más flexible del portafolio.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Compatible 2:</strong> PPV y FGBS pueden convivir<br>
+                        <em>Son productos diferentes y complementarios.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Compatible 3:</strong> Adelanto de Dinero convive con todos<br>
+                        <em>No tiene restricciones de convivencia.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Compatible 4:</strong> Línea de Crédito puede activarse con CF o DE activos<br>
+                        <em>No es necesario cancelar CF para solicitar LC Fondeo. Ambos corren simultáneamente: el CF Legacy sigue con sus términos y el nuevo préstamo de fondeo ya se emite como Línea.</em>
+                    </div>
+                    <div class="rule-item">
+                        <strong>Compatible 5:</strong> PPV y LC Consumo pueden convivir<br>
+                        <em>LC Consumo (gastos personales) no interfiere con el mecanismo de descuento por ventas de PPV.</em>
+                    </div>
+                </div>
+
+                <div class="rules" style="background: #cce5ff; border-color: #004085;">
+                    <h3 style="color: #004085;">📊 Tabla de Compatibilidad</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Producto Base</th>
+                                <th>Cuotas Fijas</th>
+                                <th>PPV</th>
+                                <th>Dinero Express</th>
+                                <th>LC Fondeo / Full</th>
+                                <th>LC Consumo</th>
+                                <th>FGBS</th>
+                                <th>Adelanto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: bold;">Cuotas Fijas</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">❌</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">⚠️</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">PPV (Brasil)</td>
+                                <td style="text-align: center;">❌</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">❌</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Dinero Express</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">LC Fondeo / Full</td>
+                                <td style="text-align: center;">⚠️</td>
+                                <td style="text-align: center;">❌</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">LC Consumo</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">FGBS (Brasil)</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">-</td>
+                                <td style="text-align: center;">✅</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Adelanto Dinero</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">✅</td>
+                                <td style="text-align: center;">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 5px;">
+                        <strong>Leyenda:</strong><br>
+                        ✅ Compatible (pueden convivir)<br>
+                        ❌ Incompatible (excluyentes)<br>
+                        ⚠️ CF Legacy y LC Fondeo corren simultáneamente; el siguiente préstamo de fondeo ya se emite como Línea<br>
+                        - Misma familia de producto (no aplica)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: FLOWCHART -->
+        <div id="flowchart" class="tab-content">
+            <div class="section">
+                <h2>Flowchart de Convivencia de Productos</h2>
+                <p style="text-align: center; color: #7f8c8d; margin-bottom: 20px;">
+                    Árbol de decisión para validar si un producto puede activarse según los productos activos del merchant
+                </p>
+
+                <div class="flowchart-container">
+                    <div class="mermaid">
+graph TD
+    Inicio([Merchant: Solicitar nuevo producto]) --> TieneActivos{Tiene productos activos?}
+
+    TieneActivos -->|No| Libre[Sin restricciones - cualquier producto disponible]
+    TieneActivos -->|Si| QueProd{Que producto quiere solicitar?}
+
+    QueProd --> TryLC[Linea de Credito]
+    QueProd --> TryCF[Cuotas Fijas]
+    QueProd --> TryPPV[PPV - Solo Brasil]
+    QueProd --> TryLibre[DE / Adelanto / FGBS]
+
+    TryLibre --> AprobLibre[Aprobado - sin restricciones de convivencia]
+
+    TryCF --> PpvCheckCF{Tiene PPV activo?}
+    PpvCheckCF -->|Si| BloqCF[Bloqueado - CF y PPV son excluyentes]
+    PpvCheckCF -->|No| AprobCF[Aprobado - CF activada]
+
+    TryPPV --> CfLcCheck{Tiene CF o LC Fondeo activo?}
+    CfLcCheck -->|Si| BloqPPV[Bloqueado - CF y LC Fondeo excluyen PPV]
+    CfLcCheck -->|No| AprobPPV[Aprobado - PPV activado]
+
+    TryLC --> ModalidadLC{Modalidad de Linea}
+    ModalidadLC --> Fondeo[Fondeo]
+    ModalidadLC --> Consumo[Consumo]
+    ModalidadLC --> Full[Full]
+
+    Consumo --> AprobConsumo[Aprobado - LC Consumo compatible con todos]
+
+    Fondeo --> PpvCheckF{Tiene PPV activo?}
+    PpvCheckF -->|Si| BloqFondeo[Bloqueado - PPV excluye LC Fondeo]
+    PpvCheckF -->|No| CfCheckF{Tiene CF Legacy activo?}
+    CfCheckF -->|Si| CFLegacy[Aprobado - CF Legacy y LC Fondeo corren simultaneamente]
+    CfCheckF -->|No| AprobFondeo[Aprobado - LC Fondeo activada]
+
+    Full --> PpvCheckFu{Tiene PPV activo?}
+    PpvCheckFu -->|Si| BloqFull[Bloqueado - PPV excluye LC Full]
+    PpvCheckFu -->|No| AprobFull[Aprobado - LC Full activada]
+
+    style Inicio fill:#667eea,color:#fff
+    style Libre fill:#2ecc71,color:#fff
+    style AprobLibre fill:#2ecc71,color:#fff
+    style AprobCF fill:#2ecc71,color:#fff
+    style AprobPPV fill:#2ecc71,color:#fff
+    style AprobConsumo fill:#2ecc71,color:#fff
+    style CFLegacy fill:#f39c12,color:#fff
+    style AprobFondeo fill:#2ecc71,color:#fff
+    style AprobFull fill:#2ecc71,color:#fff
+    style BloqCF fill:#e74c3c,color:#fff
+    style BloqPPV fill:#e74c3c,color:#fff
+    style BloqFondeo fill:#e74c3c,color:#fff
+    style BloqFull fill:#e74c3c,color:#fff
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; text-align: center;">
+                    <strong>Colores:</strong> &nbsp;
+                    <span style="background:#2ecc71;color:white;padding:4px 10px;border-radius:4px;margin:0 5px;">Aprobado</span>
+                    <span style="background:#f39c12;color:white;padding:4px 10px;border-radius:4px;margin:0 5px;">Aprobado con condición Legacy</span>
+                    <span style="background:#e74c3c;color:white;padding:4px 10px;border-radius:4px;margin:0 5px;">Bloqueado</span>
+                    <span style="background:#667eea;color:white;padding:4px 10px;border-radius:4px;margin:0 5px;">Inicio</span>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Flowchart</button>
+                    <button class="btn btn-success" onclick="copyDiagram()">📋 Copiar Código Mermaid</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: CASOS DE USO -->
         <div id="usecases" class="tab-content">
             <div class="section">
                 <h2>Casos de Uso Detallados</h2>
@@ -399,12 +632,12 @@
                         <strong>Estado Inicial:</strong> Merchant tiene un Préstamo en Cuotas Fijas activo<br><br>
                         <strong>Opciones Disponibles:</strong>
                         <ul style="margin-left: 20px; margin-top: 10px;">
-                            <li>✅ Puede activar Línea de Crédito (Fondeo sustituye el Cuotas Fijas)</li>
+                            <li>✅ Puede activar Línea de Crédito Fondeo (CF Legacy permanece hasta liquidarse)</li>
                             <li>✅ Puede solicitar Dinero Express (convivencia permitida)</li>
                             <li>✅ Puede solicitar Adelanto de Dinero</li>
                             <li>❌ NO puede tener PPV (excluyente)</li>
                         </ul><br>
-                        <strong>Resultado:</strong> Al activar Línea de Crédito Fondeo, el Cuotas Fijas se sustituye automáticamente.
+                        <strong>Resultado:</strong> Ambos préstamos corren simultáneamente: el CF Legacy se liquida según sus términos y el nuevo LC Fondeo ya está activo. El siguiente préstamo de fondeo se emitirá como Línea, no como un nuevo CF.
                     </div>
                 </div>
 
@@ -417,10 +650,11 @@
                             <li>✅ Puede solicitar Préstamo FGBS (convivencia permitida)</li>
                             <li>✅ Puede solicitar Dinero Express</li>
                             <li>✅ Puede solicitar Adelanto de Dinero</li>
+                            <li>✅ Puede activar Línea de Crédito Consumo (convivencia permitida)</li>
                             <li>❌ NO puede tener Cuotas Fijas (excluyente)</li>
-                            <li>⚠️ Si activa Línea de Crédito Fondeo, debe cancelar PPV primero</li>
+                            <li>❌ NO puede activar Línea de Crédito Fondeo ni Full (PPV excluye el componente de fondeo)</li>
                         </ul><br>
-                        <strong>Resultado:</strong> Puede tener múltiples productos activos simultáneamente.
+                        <strong>Resultado:</strong> Puede tener múltiples productos activos simultáneamente, incluyendo LC Consumo para gastos personales.
                     </div>
                 </div>
 
@@ -458,17 +692,18 @@
                 </div>
 
                 <div class="use-case">
-                    <div class="use-case-title">📋 Caso 5: Migración de Cuotas Fijas a Línea de Crédito</div>
+                    <div class="use-case-title">📋 Caso 5: Encendido de Línea de Crédito con CF activo</div>
                     <div class="scenario">
-                        <strong>Estado Inicial:</strong> Merchant con Cuotas Fijas quiere migrar<br><br>
+                        <strong>Estado Inicial:</strong> Merchant con Cuotas Fijas activo quiere pasar a Línea<br><br>
                         <strong>Proceso:</strong>
                         <ol style="margin-left: 20px; margin-top: 10px;">
                             <li>Merchant solicita Línea de Crédito Fondeo</li>
-                            <li>Sistema verifica elegibilidad</li>
-                            <li>Si aprueba, el Cuotas Fijas se sustituye automáticamente</li>
-                            <li>Merchant ahora tiene Línea de Crédito Fondeo activa</li>
+                            <li>Sistema verifica elegibilidad (CF Legacy activo no bloquea la activación)</li>
+                            <li>Si aprueba, se emite el préstamo LC Fondeo — el CF Legacy no se cancela</li>
+                            <li>Ambos préstamos corren al mismo tiempo: CF Legacy sigue con sus términos originales</li>
+                            <li>El siguiente préstamo de fondeo se emite como Línea, no como nuevo CF</li>
                         </ol><br>
-                        <strong>Ventaja:</strong> Mayor flexibilidad de uso y puede agregar modalidad Consumo después.
+                        <strong>Ventaja:</strong> Mayor flexibilidad de uso y puede agregar modalidad Consumo después para tener Full.
                     </div>
                 </div>
 
@@ -482,220 +717,32 @@
                             <li>✅ FGBS activo (préstamo garantizado)</li>
                             <li>✅ Dinero Express (para emergencias)</li>
                             <li>✅ Adelanto de Dinero (liquidez inmediata)</li>
+                            <li>✅ LC Consumo (gastos personales, compatible con PPV)</li>
                         </ul><br>
-                        <strong>Restricción:</strong> No puede tener Cuotas Fijas ni Línea de Crédito Fondeo mientras tenga PPV activo.
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 3: FLOWCHART -->
-        <div id="flowchart" class="tab-content">
-            <div class="section">
-                <h2>Flowchart de Convivencia de Productos</h2>
-                <p style="text-align: center; color: #7f8c8d; margin-bottom: 20px;">
-                    Este diagrama muestra las relaciones de compatibilidad entre todos los productos
-                </p>
-
-                <div class="flowchart-container">
-                    <div class="mermaid">
-graph TB
-    Start(["Merchant Solicita Producto"]) --> HasProducts{"Tiene productos activos?"}
-
-    HasProducts -->|No| NewMerchant["Merchant Nuevo"]
-    HasProducts -->|Si| CheckCurrent["Verificar Productos Actuales"]
-
-    NewMerchant --> AllProducts["Puede solicitar cualquier producto"]
-    AllProducts --> LC["Linea de Credito"]
-    AllProducts --> CF["Cuotas Fijas"]
-    AllProducts --> DE["Dinero Express"]
-    AllProducts --> PPV["PPV - Solo Brasil"]
-    AllProducts --> FGBS["FGBS - Solo Brasil"]
-    AllProducts --> AD["Adelanto de Dinero"]
-
-    CheckCurrent --> HasCF{"Tiene Cuotas Fijas?"}
-    CheckCurrent --> HasPPV{"Tiene PPV?"}
-    CheckCurrent --> HasDE{"Tiene Dinero Express?"}
-
-    HasCF -->|Si| CFOptions["Opciones con CF Activo"]
-    CFOptions --> CFtoLC["OK: Puede migrar a LC Fondeo"]
-    CFOptions --> CFaddDE["OK: Puede agregar Dinero Express"]
-    CFOptions --> CFaddAD["OK: Puede agregar Adelanto Dinero"]
-    CFOptions --> CFnoPPV["NO puede agregar PPV"]
-
-    CFtoLC --> Substitute["CF se sustituye por LC Fondeo"]
-
-    HasPPV -->|Si| PPVOptions["Opciones con PPV Activo"]
-    PPVOptions --> PPVaddFGBS["OK: Puede agregar FGBS"]
-    PPVOptions --> PPVaddDE["OK: Puede agregar Dinero Express"]
-    PPVOptions --> PPVaddAD["OK: Puede agregar Adelanto Dinero"]
-    PPVOptions --> PPVnoCF["NO puede Cuotas Fijas"]
-    PPVOptions --> PPVnoLC["CONDICIONAL: NO puede LC Fondeo sin cancelar PPV"]
-
-    HasDE -->|Si| DEOptions["Opciones con DE Activo"]
-    DEOptions --> DEaddLC["OK: Puede activar LC cualquier modalidad"]
-    DEOptions --> DEaddCF["OK: Puede agregar Cuotas Fijas"]
-    DEOptions --> DEaddPPV["OK: Puede agregar PPV - Brasil"]
-    DEOptions --> DEaddFGBS["OK: Puede agregar FGBS - Brasil"]
-    DEOptions --> DEaddAD["OK: Puede agregar Adelanto Dinero"]
-
-    LC --> LCModes{"Modalidad LC"}
-    LCModes --> LCFondeo["Fondeo: Sustituye CF"]
-    LCModes --> LCConsumo["Consumo: Gastos personales"]
-    LCModes --> LCFull["Full: Fondeo + Consumo"]
-
-    style Start fill:#667eea,color:#fff
-    style NewMerchant fill:#2ecc71,color:#fff
-    style CFtoLC fill:#3498db,color:#fff
-    style Substitute fill:#e74c3c,color:#fff
-    style CFnoPPV fill:#e74c3c,color:#fff
-    style PPVnoCF fill:#e74c3c,color:#fff
-    style PPVnoLC fill:#f39c12,color:#fff
-    style LC fill:#00f2fe,color:#000
-    style FGBS fill:#00f2fe,color:#000
-    style CF fill:#f5576c,color:#fff
-    style PPV fill:#f5576c,color:#fff
-    style DE fill:#f5576c,color:#fff
-    style AD fill:#f5576c,color:#fff
+                        <strong>Restricción:</strong> No puede tener CF, LC Fondeo ni LC Full mientras tenga PPV activo (excluyen el mecanismo de cobro por ventas).
                     </div>
                 </div>
 
-                <div class="button-group">
-                    <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Flowchart</button>
-                    <button class="btn btn-success" onclick="copyDiagram()">📋 Copiar Código Mermaid</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 4: REGLAS -->
-        <div id="rules" class="tab-content">
-            <div class="section">
-                <h2>Reglas de Convivencia y Restricciones</h2>
-
-                <div class="rules">
-                    <h3>🚫 Reglas de Exclusión</h3>
-                    <div class="rule-item">
-                        <strong>Regla 1:</strong> Cuotas Fijas y PPV son EXCLUYENTES<br>
-                        <em>Si un merchant tiene uno, no puede tener el otro simultáneamente.</em>
-                    </div>
-                    <div class="rule-item">
-                        <strong>Regla 2:</strong> Línea de Crédito Fondeo SUSTITUYE a Cuotas Fijas<br>
-                        <em>Al activar LC Fondeo, el préstamo Cuotas Fijas se reemplaza automáticamente.</em>
-                    </div>
-                    <div class="rule-item">
-                        <strong>Regla 3:</strong> PPV solo está disponible en Brasil<br>
-                        <em>Este producto es exclusivo para merchants brasileños.</em>
-                    </div>
-                    <div class="rule-item">
-                        <strong>Regla 4:</strong> FGBS solo está disponible en Brasil<br>
-                        <em>Préstamo garantizado por gobierno, exclusivo de Brasil.</em>
-                    </div>
-                </div>
-
-                <div class="rules" style="background: #d4edda; border-color: #28a745;">
-                    <h3 style="color: #155724;">✅ Reglas de Compatibilidad</h3>
-                    <div class="rule-item">
-                        <strong>Compatible 1:</strong> Dinero Express convive con casi todos los productos<br>
-                        <em>Es el producto más flexible del portafolio.</em>
-                    </div>
-                    <div class="rule-item">
-                        <strong>Compatible 2:</strong> PPV y FGBS pueden convivir<br>
-                        <em>Son productos diferentes y complementarios.</em>
-                    </div>
-                    <div class="rule-item">
-                        <strong>Compatible 3:</strong> Adelanto de Dinero convive con todos<br>
-                        <em>No tiene restricciones de convivencia.</em>
-                    </div>
-                    <div class="rule-item">
-                        <strong>Compatible 4:</strong> Línea de Crédito puede activarse con CF o DE activos<br>
-                        <em>No es necesario cancelar productos existentes para activarla.</em>
-                    </div>
-                </div>
-
-                <div class="rules" style="background: #cce5ff; border-color: #004085;">
-                    <h3 style="color: #004085;">📊 Tabla de Compatibilidad</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Producto Base</th>
-                                <th>Cuotas Fijas</th>
-                                <th>PPV</th>
-                                <th>Dinero Express</th>
-                                <th>LC Fondeo</th>
-                                <th>FGBS</th>
-                                <th>Adelanto</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="font-weight: bold;">Cuotas Fijas</td>
-                                <td style="text-align: center;">-</td>
-                                <td style="text-align: center;">❌</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">🔄</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: bold;">PPV (Brasil)</td>
-                                <td style="text-align: center;">❌</td>
-                                <td style="text-align: center;">-</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">⚠️</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: bold;">Dinero Express</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">-</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: bold;">LC Fondeo</td>
-                                <td style="text-align: center;">🔄</td>
-                                <td style="text-align: center;">⚠️</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">-</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: bold;">FGBS (Brasil)</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">-</td>
-                                <td style="text-align: center;">✅</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: bold;">Adelanto Dinero</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">✅</td>
-                                <td style="text-align: center;">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 5px;">
-                        <strong>Leyenda:</strong><br>
-                        ✅ Compatible (pueden convivir)<br>
-                        ❌ Incompatible (excluyentes)<br>
-                        🔄 Sustituye (LC Fondeo reemplaza a Cuotas Fijas)<br>
-                        ⚠️ Condicional (debe cancelar PPV primero para activar LC Fondeo)
+                <div class="use-case">
+                    <div class="use-case-title">📋 Caso 7: Convivencia PPV + Línea de Crédito Consumo</div>
+                    <div class="scenario">
+                        <strong>Estado Inicial:</strong> Merchant brasileño con PPV activo que necesita crédito personal<br><br>
+                        <strong>Proceso:</strong>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>Merchant solicita Línea de Crédito modalidad Consumo</li>
+                            <li>Sistema verifica: PPV no excluye LC Consumo (la exclusión aplica solo a Fondeo y Full)</li>
+                            <li>Si aprueba, se activa LC Consumo</li>
+                            <li>Ambos productos coexisten: PPV para fondeo del negocio, LC Consumo para gastos personales</li>
+                        </ol><br>
+                        <strong>Resultado:</strong> El merchant tiene PPV + LC Consumo activos simultáneamente.<br><br>
+                        <strong>Restricción:</strong> Si en el futuro quisiera cambiar a LC Fondeo o Full, primero deberá cancelar el PPV.
                     </div>
                 </div>
             </div>
         </div>
 
         <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #e2e8f0; color: #718096;">
-            <p>📄 Documento generado: 2026-02-17 | Versión 3.0</p>
+            <p>📄 Documento actualizado: 2026-02-24 | Versión 4.0</p>
             <p>MercadoLibre - Merchant Credit Products</p>
         </div>
     </div>
