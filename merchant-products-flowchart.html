@@ -950,44 +950,55 @@ function showTab(tabName, btn) {
     }
 }
 
+// ─── 3D EMOJI IMAGES ─────────────────────────────────────────────────────────
+const E_CDN = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple@15.0.1/img/apple/64/';
+const E_MAP = [
+    ['🇧🇷','1f1e7-1f1f7'], ['⚠️','26a0-fe0f'], ['🖨️','1f5a8-fe0f'],
+    ['💰','1f4b0'], ['⚡','26a1'],  ['📈','1f4c8'], ['💵','1f4b5'],
+    ['🏦','1f3e6'], ['📊','1f4ca'], ['🔀','1f500'], ['📝','1f4dd'],
+    ['🚫','1f6ab'], ['✅','2705'],  ['❌','274c'],  ['📋','1f4cb'],
+    ['🟡','1f7e1'], ['🟢','1f7e2'], ['🟠','1f7e0'], ['🔴','1f534']
+];
+
+function ei(text) {
+    if (!text) return text;
+    for (const [ch, code] of E_MAP) {
+        if (text.includes(ch))
+            text = text.split(ch).join(`<img src="${E_CDN}${code}.png" class="ei" alt="${ch}">`);
+    }
+    return text;
+}
+
 // ─── LANGUAGE SWITCH ─────────────────────────────────────────────────────────
 function switchLang(lang) {
     currentLang = lang;
     const t = T[lang];
 
-    // Update all data-i18n elements
+    // Update all data-i18n elements — apply emoji images inline
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (t[key] !== undefined) el.innerHTML = t[key];
+        if (t[key] !== undefined) el.innerHTML = ei(t[key]);
     });
 
     // Update mermaid diagram
     const mermaidEl = document.getElementById('mermaid-diagram');
-    // Remove existing SVG if rendered
     const svg = mermaidEl.querySelector('svg');
     if (svg) svg.remove();
     mermaidEl.removeAttribute('data-processed');
-    // Set new source as text node
     mermaidEl.textContent = t.mermaid;
 
     if (flowchartRendered) {
         flowchartRendered = false;
-        // Only re-render if flowchart tab is active
         if (document.getElementById('flowchart').classList.contains('active')) {
             flowchartRendered = true;
             setTimeout(() => mermaid.run({ nodes: [mermaidEl] }), 100);
         }
     }
 
-    // Update active flag button
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add('active');
-
-    // Update html lang attribute
     document.documentElement.lang = lang;
-
     localStorage.setItem('preferredLang', lang);
-    setTimeout(applyEmojis, 30);
 }
 
 // ─── COPY DIAGRAM ────────────────────────────────────────────────────────────
@@ -998,51 +1009,33 @@ function copyDiagram() {
         .catch(() => alert('Select the diagram text manually to copy.'));
 }
 
-// ─── 3D EMOJI REPLACEMENT ────────────────────────────────────────────────────
-const EMOJI_CDN = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/';
-const EMOJI_MAP = [
-    // Multi-codepoint first (avoid partial matches)
-    ['🇧🇷', '1f1e7-1f1f7'],
-    ['⚠️',  '26a0-fe0f'],
-    ['🖨️', '1f5a8-fe0f'],
-    // Single codepoint
-    ['💰', '1f4b0'], ['⚡', '26a1'],  ['📈', '1f4c8'], ['💵', '1f4b5'],
-    ['🏦', '1f3e6'], ['📊', '1f4ca'], ['🔀', '1f500'], ['📝', '1f4dd'],
-    ['🚫', '1f6ab'], ['✅', '2705'],  ['❌', '274c'],  ['📋', '1f4cb'],
-    ['🟡', '1f7e1'], ['🟢', '1f7e2'], ['🟠', '1f7e0'], ['🔴', '1f534'],
-    ['📋', '1f4cb']
-];
+// ─── INIT ────────────────────────────────────────────────────────────────────
+// 1. Process all data-i18n elements (tabs, cards, rules, use-cases, etc.)
+switchLang(currentLang);
 
-function applyEmojis() {
+// 2. Fix remaining static emoji nodes not covered by data-i18n
+//    (PT flag button, table body cells ✅ ❌ ⚠️, any other hardcoded text)
+(function fixStaticEmojis() {
     const container = document.querySelector('.container');
     if (!container) return;
-    // Collect text nodes that contain at least one emoji
-    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
-    const batch = [];
-    let node;
-    while ((node = walker.nextNode())) {
-        const txt = node.textContent;
-        if (EMOJI_MAP.some(([e]) => txt.includes(e))) batch.push(node);
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    let n;
+    while ((n = walker.nextNode())) {
+        if (E_MAP.some(([e]) => n.textContent.includes(e))) nodes.push(n);
     }
-    batch.forEach(textNode => {
+    nodes.forEach(textNode => {
         if (!textNode.parentNode) return;
         let html = textNode.textContent;
-        for (const [emoji, code] of EMOJI_MAP) {
-            if (html.includes(emoji)) {
-                html = html.split(emoji).join(
-                    `<img src="${EMOJI_CDN}${code}.png" class="ei" alt="${emoji}" loading="lazy">`
-                );
-            }
+        for (const [ch, code] of E_MAP) {
+            if (html.includes(ch))
+                html = html.split(ch).join(`<img src="${E_CDN}${code}.png" class="ei" alt="${ch}">`);
         }
-        const wrap = document.createElement('span');
-        wrap.innerHTML = html;
-        textNode.parentNode.replaceChild(wrap, textNode);
+        const span = document.createElement('span');
+        span.innerHTML = html;
+        textNode.parentNode.replaceChild(span, textNode);
     });
-}
-
-// ─── INIT ────────────────────────────────────────────────────────────────────
-if (currentLang !== 'es') switchLang(currentLang);
-setTimeout(applyEmojis, 50);
+})();
 </script>
 </body>
 </html>
