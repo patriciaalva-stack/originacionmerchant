@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merchant Products — Casos de Uso</title>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&display=swap" rel="stylesheet">
     <style>
         /* ── Neumorphism White & Yellow ────────────────────────────────────── */
         :root {
             --bg:          #EFEFEF;
             --sh-dark:     #d0d0d0;
             --sh-light:    #ffffff;
-            --yellow:      #FFE600;
-            --yellow-dark: #CCBA00;
-            --yellow-mid:  #F5DC00;
+            --yellow:      #F5B800;
+            --yellow-dark: #C49300;
             --green:       #00A650;
             --green-dk:    #007A3D;
             --green-bg:    rgba(0,166,80,0.08);
@@ -28,7 +30,7 @@
             --neu-out:     8px 8px 18px var(--sh-dark), -8px -8px 18px var(--sh-light);
             --neu-out-sm:  4px 4px 10px var(--sh-dark), -4px -4px 10px var(--sh-light);
             --neu-in:      inset 4px 4px 10px var(--sh-dark), inset -4px -4px 10px var(--sh-light);
-            --neu-yellow:  6px 6px 14px rgba(180,165,0,0.45), -4px -4px 12px rgba(255,255,255,0.9);
+            --neu-yellow:  6px 6px 14px rgba(185,140,0,0.45), -4px -4px 12px rgba(255,255,255,0.9);
             --r-sm:  10px;
             --r-md:  16px;
             --r-lg:  22px;
@@ -39,7 +41,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Proxima Nova A', 'Proxima Nova', 'ProximaNova', 'Nunito Sans', system-ui, -apple-system, sans-serif;
             background: var(--bg);
             min-height: 100vh;
             padding: 36px 20px;
@@ -272,7 +274,6 @@
 
         td { color: var(--text-mid); background: var(--bg); }
         td:first-child { color: var(--text); font-weight: 700; }
-        tr:hover td { background: rgba(255,230,0,0.07); }
 
         .table-legend {
             margin-top: 12px; padding: 13px 18px;
@@ -377,6 +378,20 @@
             padding-top: 20px;
             color: var(--text-muted); font-size: 0.85em; letter-spacing: 0.3px;
         }
+
+        /* ── 3D Emoji images ──────────────────────────────────────────────── */
+        img.ei {
+            height: 1.25em;
+            width:  1.25em;
+            vertical-align: -0.28em;
+            display: inline-block;
+            object-fit: contain;
+        }
+        h1 img.ei, h2 img.ei { height: 1.1em; width: 1.1em; vertical-align: -0.15em; }
+        .tab img.ei { height: 1.15em; width: 1.15em; vertical-align: -0.2em; }
+        .flowchart-legend img.ei { height: 1.15em; width: 1.15em; vertical-align: -0.2em; }
+
+        tr:hover td { background: rgba(245,184,0,0.07); }
 
         @media print {
             body { background: white; }
@@ -540,7 +555,7 @@ graph TD
     BrasilEleccion -->|Elige PPV| PPVgana[PPV ocupa el slot - CF desaparece]
     CFvsLC -->|Elige CF| SoloCF[CF activo]
     CFvsLC -->|Elige LC Fondeo| SoloLC[LC Fondeo activo]
-    style Inicio fill:#FFE600,color:#1a1a1a,stroke:#CCBA00
+    style Inicio fill:#F5B800,color:#1a1a1a,stroke:#C49300
     style BNPLOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style FlexOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
@@ -554,7 +569,7 @@ graph TD
             </div>
 
             <div class="flowchart-legend">
-                <span style="background:#FFF9C4;color:#7a6000;border:1px solid #CCBA00;" data-i18n="fleg_start">🟡 Inicio</span>
+                <span style="background:#FFF0B3;color:#7a5000;border:1px solid #C49300;" data-i18n="fleg_start">🟡 Inicio</span>
                 <span style="background:#E6F7EF;color:#007A3D;border:1px solid #00A650;" data-i18n="fleg_ok">🟢 Disponible</span>
                 <span style="background:#FFF3E0;color:#CC3E0A;border:1px solid #FF7733;" data-i18n="fleg_legacy">🟠 Convivencia Legacy</span>
                 <span style="background:#FDECEC;color:#C0392B;border:1px solid #E74C3C;" data-i18n="fleg_blocked">🔴 Slot ocupado</span>
@@ -705,7 +720,7 @@ const T = {
     BrasilEleccion -->|Elige PPV| PPVgana[PPV ocupa el slot - CF desaparece]
     CFvsLC -->|Elige CF| SoloCF[CF activo]
     CFvsLC -->|Elige LC Fondeo| SoloLC[LC Fondeo activo]
-    style Inicio fill:#FFE600,color:#1a1a1a,stroke:#CCBA00
+    style Inicio fill:#F5B800,color:#1a1a1a,stroke:#C49300
     style BNPLOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style FlexOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
@@ -804,7 +819,7 @@ const T = {
     BrasilEleccion -->|Escolhe PPV| PPVgana[PPV ocupa o slot - CF desaparece]
     CFvsLC -->|Escolhe CF| SoloCF[CF ativo]
     CFvsLC -->|Escolhe LC Financiamento| SoloLC[LC Financiamento ativo]
-    style Inicio fill:#FFE600,color:#1a1a1a,stroke:#CCBA00
+    style Inicio fill:#F5B800,color:#1a1a1a,stroke:#C49300
     style BNPLOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style FlexOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
@@ -903,7 +918,7 @@ const T = {
     BrasilEleccion -->|Chooses PPV| PPVgana[PPV takes slot - CF disappears]
     CFvsLC -->|Chooses CF| SoloCF[CF active]
     CFvsLC -->|Chooses LC Funding| SoloLC[LC Funding active]
-    style Inicio fill:#FFE600,color:#1a1a1a,stroke:#CCBA00
+    style Inicio fill:#F5B800,color:#1a1a1a,stroke:#C49300
     style BNPLOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style FlexOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
@@ -972,18 +987,62 @@ function switchLang(lang) {
     document.documentElement.lang = lang;
 
     localStorage.setItem('preferredLang', lang);
+    setTimeout(applyEmojis, 30);
 }
 
 // ─── COPY DIAGRAM ────────────────────────────────────────────────────────────
 function copyDiagram() {
     const text = T[currentLang].mermaid;
     navigator.clipboard.writeText(text)
-        .then(() => alert('✅ Mermaid code copied to clipboard!'))
+        .then(() => alert('Mermaid code copied!'))
         .catch(() => alert('Select the diagram text manually to copy.'));
+}
+
+// ─── 3D EMOJI REPLACEMENT ────────────────────────────────────────────────────
+const EMOJI_CDN = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/';
+const EMOJI_MAP = [
+    // Multi-codepoint first (avoid partial matches)
+    ['🇧🇷', '1f1e7-1f1f7'],
+    ['⚠️',  '26a0-fe0f'],
+    ['🖨️', '1f5a8-fe0f'],
+    // Single codepoint
+    ['💰', '1f4b0'], ['⚡', '26a1'],  ['📈', '1f4c8'], ['💵', '1f4b5'],
+    ['🏦', '1f3e6'], ['📊', '1f4ca'], ['🔀', '1f500'], ['📝', '1f4dd'],
+    ['🚫', '1f6ab'], ['✅', '2705'],  ['❌', '274c'],  ['📋', '1f4cb'],
+    ['🟡', '1f7e1'], ['🟢', '1f7e2'], ['🟠', '1f7e0'], ['🔴', '1f534'],
+    ['📋', '1f4cb']
+];
+
+function applyEmojis() {
+    const container = document.querySelector('.container');
+    if (!container) return;
+    // Collect text nodes that contain at least one emoji
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+    const batch = [];
+    let node;
+    while ((node = walker.nextNode())) {
+        const txt = node.textContent;
+        if (EMOJI_MAP.some(([e]) => txt.includes(e))) batch.push(node);
+    }
+    batch.forEach(textNode => {
+        if (!textNode.parentNode) return;
+        let html = textNode.textContent;
+        for (const [emoji, code] of EMOJI_MAP) {
+            if (html.includes(emoji)) {
+                html = html.split(emoji).join(
+                    `<img src="${EMOJI_CDN}${code}.png" class="ei" alt="${emoji}" loading="lazy">`
+                );
+            }
+        }
+        const wrap = document.createElement('span');
+        wrap.innerHTML = html;
+        textNode.parentNode.replaceChild(wrap, textNode);
+    });
 }
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 if (currentLang !== 'es') switchLang(currentLang);
+setTimeout(applyEmojis, 50);
 </script>
 </body>
 </html>
