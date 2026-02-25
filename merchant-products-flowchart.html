@@ -6,375 +6,377 @@
     <title>Merchant Products — Casos de Uso</title>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <style>
+        /* ── Andes X Design Tokens ─────────────────────────────────────────── */
+        :root {
+            --blue:        #3483FA;
+            --blue-dark:   #2968C8;
+            --blue-light:  rgba(52, 131, 250, 0.08);
+            --blue-tint:   rgba(52, 131, 250, 0.14);
+            --green:       #00A650;
+            --green-dark:  #008744;
+            --green-light: rgba(0, 166, 80, 0.08);
+            --red:         #F23D4F;
+            --red-light:   rgba(242, 61, 79, 0.08);
+            --orange:      #FF7733;
+            --orange-light:rgba(255, 119, 51, 0.08);
+            --text-primary:   #1A1A1A;
+            --text-secondary: #737373;
+            --text-disabled:  #BFBFBF;
+            --bg-page:   #F5F5F5;
+            --bg-white:  #FFFFFF;
+            --bg-surface:#EDEDED;
+            --border:    #EDEDED;
+            --border-md: #C7C7C7;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #fafaf8;
+            font-family: 'Proxima Nova', -apple-system, 'Roboto', Arial, sans-serif;
+            background: var(--bg-page);
             min-height: 100vh;
-            padding: 36px 20px;
-            color: #1a1a1a;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: -18vh; right: -18vw;
-            width: 70vw; height: 80vh;
-            background: radial-gradient(ellipse at 40% 45%,
-                rgba(255,214,0,0.55) 0%, rgba(255,180,0,0.30) 30%,
-                rgba(255,160,0,0.12) 55%, transparent 72%);
-            border-radius: 50%;
-            filter: blur(55px);
-            pointer-events: none; z-index: 0;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -12vh; left: -14vw;
-            width: 50vw; height: 55vh;
-            background: radial-gradient(ellipse at 50% 50%,
-                rgba(255,214,0,0.28) 0%, rgba(255,180,0,0.12) 45%, transparent 70%);
-            border-radius: 50%;
-            filter: blur(60px);
-            pointer-events: none; z-index: 0;
+            padding: 32px 20px;
+            color: var(--text-primary);
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1320px;
             margin: 0 auto;
-            background: rgba(255,255,255,0.82);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,214,0,0.18);
-            border-radius: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.04), 0 20px 60px rgba(0,0,0,0.08),
-                        inset 0 1px 0 rgba(255,255,255,0.9);
-            padding: 44px;
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06);
+            padding: 40px 44px;
             position: relative;
-            z-index: 1;
         }
 
-        /* --- LANGUAGE SWITCHER --- */
+        /* ── Language Switcher ────────────────────────────────────────────── */
         .lang-switcher {
             position: absolute;
             top: 20px; right: 20px;
             display: flex;
-            gap: 6px;
+            gap: 4px;
             z-index: 10;
         }
 
         .lang-btn {
-            background: #ffffff;
-            border: 1px solid #e8e8e8;
-            border-radius: 8px;
+            background: var(--bg-white);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
             padding: 5px 9px;
-            font-size: 1.25em;
+            font-size: 1.2em;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: border-color 0.15s, background 0.15s;
             line-height: 1;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
 
         .lang-btn:hover {
-            border-color: #FFE600;
-            background: rgba(255,230,0,0.1);
-            transform: translateY(-1px);
-            box-shadow: 0 3px 10px rgba(255,214,0,0.2);
+            border-color: var(--blue);
+            background: var(--blue-light);
         }
 
         .lang-btn.active {
-            border-color: #FFE600;
-            background: #FFE600;
-            box-shadow: 0 2px 8px rgba(255,214,0,0.3);
+            border-color: var(--blue);
+            background: var(--blue);
         }
 
-        /* --- HEADER --- */
+        /* ── Header ───────────────────────────────────────────────────────── */
         h1 {
-            color: #1a1a1a;
+            color: var(--text-primary);
             text-align: center;
             margin-bottom: 6px;
-            font-size: 2.2em;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+            font-size: 2em;
+            font-weight: 600;
+            letter-spacing: -0.4px;
         }
 
-        h1 span { color: #d4a800; }
+        h1 span { color: var(--blue); }
 
         .subtitle {
             text-align: center;
-            color: #888;
-            margin-bottom: 40px;
-            font-size: 0.88em;
-            letter-spacing: 0.6px;
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+            font-size: 0.82em;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
+            font-weight: 400;
         }
 
-        .section { margin-bottom: 36px; }
+        .section { margin-bottom: 32px; }
 
         h2 {
-            color: #1a1a1a;
-            padding-bottom: 12px;
-            margin-bottom: 24px;
-            font-size: 1.3em;
-            font-weight: 700;
-            letter-spacing: -0.2px;
-            border-bottom: 2px solid #FFE600;
+            color: var(--text-primary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.15em;
+            font-weight: 600;
+            letter-spacing: -0.1px;
+            border-bottom: 2px solid var(--blue);
         }
 
         h3 {
-            color: #1a1a1a;
-            margin-top: 0; margin-bottom: 14px;
-            font-size: 0.9em; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.6px;
+            color: var(--text-secondary);
+            margin-top: 0; margin-bottom: 12px;
+            font-size: 0.78em; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.8px;
         }
 
-        /* --- TABS --- */
+        /* ── Tabs ─────────────────────────────────────────────────────────── */
         .tabs {
-            display: flex; gap: 6px;
+            display: flex; gap: 4px;
             margin-bottom: 28px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 1.5px solid var(--border);
             overflow-x: auto;
         }
 
         .tab {
-            padding: 10px 22px;
+            padding: 9px 20px;
             cursor: pointer;
             background: transparent;
-            border: 1px solid transparent;
+            border: 1.5px solid transparent;
             border-bottom: none;
-            border-radius: 8px 8px 0 0;
-            font-size: 0.88em; color: #888;
-            transition: all 0.2s ease;
-            white-space: nowrap; font-weight: 500;
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            font-size: 0.86em;
+            color: var(--text-secondary);
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            font-weight: 500;
         }
 
         .tab:hover {
-            background: rgba(255,230,0,0.12);
-            color: #1a1a1a;
-            border-color: rgba(255,214,0,0.3);
+            background: var(--blue-light);
+            color: var(--blue);
+            border-color: var(--border);
         }
 
         .tab.active {
-            background: #FFE600; color: #000;
-            border-color: #FFE600; font-weight: 700;
-            box-shadow: 0 -2px 8px rgba(255,214,0,0.25);
+            background: var(--blue);
+            color: #fff;
+            border-color: var(--blue);
+            font-weight: 600;
         }
 
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(4px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- PRODUCT GRID --- */
+        /* ── Product Grid ─────────────────────────────────────────────────── */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-            gap: 14px; margin-bottom: 28px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px; margin-bottom: 24px;
         }
 
         .product-card {
-            background: #ffffff;
-            border: 1px solid #eeeeee;
-            border-radius: 14px; padding: 20px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            transition: box-shadow 0.15s ease, border-color 0.15s ease;
         }
 
         .product-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 24px rgba(0,0,0,0.09);
-            border-color: rgba(255,214,0,0.4);
+            box-shadow: 0 2px 12px rgba(52,131,250,0.12);
+            border-color: var(--blue-tint);
         }
 
-        .product-card.legacy { border-left: 3px solid #cccccc; }
-        .product-card.new    { border-left: 3px solid #FFE600; }
+        .product-card.legacy { border-left: 3px solid var(--border-md); }
+        .product-card.new    { border-left: 3px solid var(--blue); }
 
         .product-card h4 {
-            font-size: 0.95em; margin-bottom: 10px;
+            font-size: 0.92em; margin-bottom: 10px;
             padding-bottom: 8px;
-            border-bottom: 1px solid #f0f0f0;
-            color: #1a1a1a; font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary); font-weight: 600;
         }
 
         .product-card p, .product-card li {
-            font-size: 0.86em; line-height: 1.55; color: #555;
+            font-size: 0.85em; line-height: 1.55; color: var(--text-secondary);
         }
 
         .product-card ul { margin-top: 8px; margin-left: 16px; }
 
-        /* --- LEGEND --- */
+        /* ── Legend ───────────────────────────────────────────────────────── */
         .legend {
             display: flex; justify-content: center;
-            gap: 24px; margin: 20px 0; flex-wrap: wrap;
+            gap: 20px; margin: 16px 0; flex-wrap: wrap;
         }
 
         .legend-item {
             display: flex; align-items: center;
-            gap: 8px; color: #666; font-size: 0.83em;
+            gap: 8px; color: var(--text-secondary); font-size: 0.82em;
         }
 
-        .legend-box { width: 18px; height: 18px; border-radius: 4px; }
-        .legend-box.legacy       { background: #cccccc; }
-        .legend-box.new          { background: #FFE600; border: 1px solid #e6cf00; }
-        .legend-box.compatible   { background: #2ecc71; }
-        .legend-box.incompatible { background: #e74c3c; }
+        .legend-box { width: 16px; height: 16px; border-radius: 3px; }
+        .legend-box.legacy       { background: var(--border-md); }
+        .legend-box.new          { background: var(--blue); }
+        .legend-box.compatible   { background: var(--green); }
+        .legend-box.incompatible { background: var(--red); }
 
-        /* --- RULES --- */
+        /* ── Rules ────────────────────────────────────────────────────────── */
         .rules {
-            background: rgba(255,230,0,0.06);
-            border: 1px solid rgba(255,200,0,0.28);
-            border-radius: 14px; padding: 20px; margin: 16px 0;
+            background: var(--blue-light);
+            border: 1px solid var(--blue-tint);
+            border-radius: var(--radius-lg);
+            padding: 18px 20px; margin: 14px 0;
         }
 
         .rules.compatible-box {
-            background: rgba(46,204,113,0.04);
-            border-color: rgba(46,204,113,0.22);
+            background: var(--green-light);
+            border-color: rgba(0, 166, 80, 0.2);
         }
 
-        .rules.compatible-box h3 { color: #1a6b3c; }
-        .rules.table-box { background: #ffffff; border-color: #eeeeee; }
+        .rules.compatible-box h3 { color: var(--green-dark); }
+        .rules.table-box { background: var(--bg-white); border-color: var(--border); }
 
         .rule-item {
-            padding: 11px 14px; margin: 8px 0;
-            background: #ffffff; border-radius: 8px;
-            border: 1px solid #f0f0f0;
-            border-left: 3px solid #FFE600;
-            color: #444; font-size: 0.87em; line-height: 1.55;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+            padding: 10px 14px; margin: 8px 0;
+            background: var(--bg-white);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--blue);
+            color: var(--text-secondary);
+            font-size: 0.86em; line-height: 1.6;
         }
 
-        .rules.compatible-box .rule-item { border-left-color: #2ecc71; }
-        .rule-item strong { color: #1a1a1a; }
-        .rule-item em { color: #888; }
+        .rules.compatible-box .rule-item { border-left-color: var(--green); }
+        .rule-item strong { color: var(--text-primary); }
+        .rule-item em { color: var(--text-disabled); }
 
-        /* --- TABLE --- */
+        /* ── Table ────────────────────────────────────────────────────────── */
         table {
             width: 100%; border-collapse: collapse;
-            margin: 14px 0; background: #ffffff;
-            border-radius: 10px; overflow: hidden;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+            margin: 12px 0; background: var(--bg-white);
+            border-radius: var(--radius-md); overflow: hidden;
+            border: 1px solid var(--border);
         }
 
         th, td {
             padding: 10px 12px;
-            border: 1px solid #f0f0f0;
-            text-align: left; font-size: 0.85em;
+            border: 1px solid var(--border);
+            text-align: left; font-size: 0.84em;
         }
 
         th {
-            background: #FFE600; color: #000;
-            font-weight: 700; border-color: #e6d000;
-            letter-spacing: 0.2px;
+            background: var(--blue); color: #fff;
+            font-weight: 600; border-color: var(--blue-dark);
+            letter-spacing: 0.1px;
         }
 
-        td { color: #555; }
-        td:first-child { color: #1a1a1a; font-weight: 600; background: #fafaf8; }
-        tr:hover td { background: rgba(255,230,0,0.04); }
+        td { color: var(--text-secondary); }
+        td:first-child { color: var(--text-primary); font-weight: 600; background: #FAFAFA; }
+        tr:hover td { background: var(--blue-light); }
 
         .table-legend {
-            margin-top: 12px; padding: 12px 16px;
-            background: #fafaf8; border-radius: 8px;
-            font-size: 0.83em; color: #777; line-height: 1.7;
-            border: 1px solid #eeeeee;
+            margin-top: 10px; padding: 10px 14px;
+            background: #FAFAFA; border-radius: var(--radius-sm);
+            font-size: 0.82em; color: var(--text-secondary); line-height: 1.7;
+            border: 1px solid var(--border);
         }
 
-        .table-legend strong { color: #333; }
+        .table-legend strong { color: var(--text-primary); }
 
-        /* --- FLOWCHART --- */
+        /* ── Flowchart ────────────────────────────────────────────────────── */
         .flowchart-container {
-            background: #ffffff; border: 1px solid #eeeeee;
-            padding: 30px 20px; border-radius: 14px;
-            margin-top: 16px; overflow-x: auto;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            padding: 28px 20px; border-radius: var(--radius-md);
+            margin-top: 14px; overflow-x: auto;
         }
 
         .mermaid { text-align: center; }
 
         .flowchart-legend {
             display: flex; justify-content: center;
-            gap: 10px; flex-wrap: wrap; margin-top: 20px;
+            gap: 8px; flex-wrap: wrap; margin-top: 18px;
         }
 
         .flowchart-legend span {
-            padding: 5px 14px; border-radius: 20px;
-            font-size: 0.79em; font-weight: 600; letter-spacing: 0.2px;
+            padding: 4px 14px; border-radius: 20px;
+            font-size: 0.78em; font-weight: 600; letter-spacing: 0.2px;
         }
 
-        /* --- USE CASES --- */
+        /* ── Use Cases ────────────────────────────────────────────────────── */
         .use-case {
-            background: #ffffff; border: 1px solid #eeeeee;
-            border-left: 3px solid #FFE600;
-            padding: 18px 20px; border-radius: 12px;
-            margin-bottom: 12px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.04);
-            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--blue);
+            padding: 16px 20px; border-radius: var(--radius-md);
+            margin-bottom: 10px;
+            transition: box-shadow 0.15s ease, border-color 0.15s ease;
         }
 
         .use-case:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            border-left-color: #FFE600;
-            border-color: rgba(255,214,0,0.4);
+            box-shadow: 0 2px 12px rgba(52,131,250,0.1);
+            border-color: var(--blue-tint);
         }
 
         .use-case-title {
-            font-weight: 700; color: #1a1a1a;
-            margin-bottom: 10px; font-size: 0.93em;
+            font-weight: 600; color: var(--text-primary);
+            margin-bottom: 8px; font-size: 0.92em;
         }
 
         .scenario {
-            background: #fafaf8; padding: 14px 16px;
-            border-radius: 8px; margin-top: 8px;
-            border: 1px solid #f0f0f0;
-            color: #555; font-size: 0.86em; line-height: 1.65;
+            background: #FAFAFA; padding: 12px 16px;
+            border-radius: var(--radius-sm); margin-top: 8px;
+            border: 1px solid var(--border);
+            color: var(--text-secondary); font-size: 0.85em; line-height: 1.65;
         }
 
-        .scenario strong { color: #1a1a1a; }
+        .scenario strong { color: var(--text-primary); }
         .scenario ul, .scenario ol { margin-left: 18px; margin-top: 6px; }
         .scenario li { margin: 4px 0; }
 
-        /* --- BUTTONS --- */
+        /* ── Buttons ──────────────────────────────────────────────────────── */
         .button-group {
             display: flex; gap: 10px;
             justify-content: center; margin: 20px 0 4px; flex-wrap: wrap;
         }
 
         .btn {
-            padding: 9px 20px; border: none;
-            border-radius: 8px; font-size: 0.84em;
-            cursor: pointer; transition: all 0.2s ease; font-weight: 600;
+            padding: 9px 22px; border: none;
+            border-radius: var(--radius-sm); font-size: 0.84em;
+            cursor: pointer; transition: all 0.15s ease; font-weight: 600;
         }
 
-        .btn-primary { background: #FFE600; color: #000; border: 1px solid #e6d000; }
+        .btn-primary {
+            background: var(--blue); color: #fff;
+            border: 1.5px solid var(--blue);
+        }
         .btn-primary:hover {
-            background: #f0d800;
-            box-shadow: 0 4px 16px rgba(255,214,0,0.35);
+            background: var(--blue-dark);
+            border-color: var(--blue-dark);
+            box-shadow: 0 4px 12px rgba(52,131,250,0.3);
             transform: translateY(-1px);
         }
 
-        .btn-success { background: #ffffff; color: #1a6b3c; border: 1px solid #2ecc71; }
+        .btn-success {
+            background: var(--bg-white);
+            color: var(--green-dark);
+            border: 1.5px solid var(--green);
+        }
         .btn-success:hover {
-            background: #2ecc71; color: #fff;
-            box-shadow: 0 4px 16px rgba(46,204,113,0.25);
+            background: var(--green);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,166,80,0.2);
             transform: translateY(-1px);
         }
 
-        /* --- FOOTER --- */
+        /* ── Footer ───────────────────────────────────────────────────────── */
         .footer {
-            text-align: center; margin-top: 44px;
-            padding-top: 20px; border-top: 1px solid #eeeeee;
-            color: #aaa; font-size: 0.79em; letter-spacing: 0.3px;
+            text-align: center; margin-top: 40px;
+            padding-top: 16px; border-top: 1px solid var(--border);
+            color: var(--text-disabled); font-size: 0.78em; letter-spacing: 0.3px;
         }
 
         @media print {
             body { background: white; }
-            body::before, body::after { display: none; }
             .container { box-shadow: none; border: none; }
             .tabs, .button-group, .lang-switcher { display: none; }
             .tab-content { display: block !important; }
@@ -513,7 +515,7 @@
     <div id="flowchart" class="tab-content">
         <div class="section">
             <h2 data-i18n="h2_flowchart">Flowchart de Convivencia de Productos</h2>
-            <p style="text-align:center;color:#888;margin-bottom:20px;font-size:0.87em;" data-i18n="flowchart_desc">Las ofertas las enciende MP. Cada producto ocupa un <strong style="color:#1a1a1a;">slot</strong>: fondeo del negocio o consumo (BNPL). Dentro del slot de fondeo, el merchant elige una opción y las demás desaparecen.</p>
+            <p style="text-align:center;color:#737373;margin-bottom:20px;font-size:0.87em;" data-i18n="flowchart_desc">Las ofertas las enciende MP. Cada producto ocupa un <strong style="color:#1A1A1A;">slot</strong>: fondeo del negocio o consumo (BNPL). Dentro del slot de fondeo, el merchant elige una opción y las demás desaparecen.</p>
 
             <div class="flowchart-container">
                 <div class="mermaid" id="mermaid-diagram">
@@ -535,24 +537,24 @@ graph TD
     BrasilEleccion -->|Elige PPV| PPVgana[PPV ocupa el slot - CF desaparece]
     CFvsLC -->|Elige CF| SoloCF[CF activo]
     CFvsLC -->|Elige LC Fondeo| SoloLC[LC Fondeo activo]
-    style Inicio fill:#FFE600,color:#000,stroke:#e6d000
-    style BNPLOk fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style FlexOk fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style Legacy fill:#fef9e7,color:#7d6608,stroke:#f9e79f
-    style PPVbloquea fill:#fdedec,color:#922b21,stroke:#f5b7b1
-    style CFgana fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style PPVgana fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style SoloCF fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style SoloLC fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style UnaOferta fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
+    style Inicio fill:#3483FA,color:#fff,stroke:#2968C8
+    style BNPLOk fill:#E8F5EE,color:#008744,stroke:#00A650
+    style FlexOk fill:#E8F5EE,color:#008744,stroke:#00A650
+    style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
+    style PPVbloquea fill:#FDEBEC,color:#D12440,stroke:#F23D4F
+    style CFgana fill:#E8F5EE,color:#008744,stroke:#00A650
+    style PPVgana fill:#E8F5EE,color:#008744,stroke:#00A650
+    style SoloCF fill:#E8F5EE,color:#008744,stroke:#00A650
+    style SoloLC fill:#E8F5EE,color:#008744,stroke:#00A650
+    style UnaOferta fill:#E8F5EE,color:#008744,stroke:#00A650
                 </div>
             </div>
 
             <div class="flowchart-legend">
-                <span style="background:#FFF9C4;color:#7d6608;border:1px solid #f9e79f;" data-i18n="fleg_start">🟡 Inicio</span>
-                <span style="background:#d5f5e3;color:#1a6b3c;border:1px solid #a9dfbf;" data-i18n="fleg_ok">🟢 Disponible</span>
-                <span style="background:#fef9e7;color:#7d6608;border:1px solid #f9e79f;" data-i18n="fleg_legacy">🟠 Convivencia Legacy</span>
-                <span style="background:#fdedec;color:#922b21;border:1px solid #f5b7b1;" data-i18n="fleg_blocked">🔴 Slot ocupado</span>
+                <span style="background:#EBF3FF;color:#2968C8;border:1px solid #3483FA;" data-i18n="fleg_start">🔵 Inicio</span>
+                <span style="background:#E8F5EE;color:#008744;border:1px solid #00A650;" data-i18n="fleg_ok">🟢 Disponible</span>
+                <span style="background:#FFF3E0;color:#CC3E0A;border:1px solid #FF7733;" data-i18n="fleg_legacy">🟠 Convivencia Legacy</span>
+                <span style="background:#FDEBEC;color:#D12440;border:1px solid #F23D4F;" data-i18n="fleg_blocked">🔴 Slot ocupado</span>
             </div>
 
             <div class="button-group">
@@ -663,7 +665,7 @@ const T = {
     table_legend: "<strong>Leyenda:</strong> ✅ Compatible · ❌ Incompatible · ⚠️ CF Legacy y LC Fondeo corren simultáneamente · — Misma familia",
     h2_flowchart: "Flowchart de Convivencia de Productos",
     flowchart_desc: "Las ofertas las enciende MP. Cada producto ocupa un <strong style=\"color:#1a1a1a;\">slot</strong>: fondeo del negocio o consumo (BNPL). Dentro del slot de fondeo, el merchant elige una opción y las demás desaparecen.",
-    fleg_start: "🟡 Inicio", fleg_ok: "🟢 Disponible",
+    fleg_start: "🔵 Inicio", fleg_ok: "🟢 Disponible",
     fleg_legacy: "🟠 Convivencia Legacy", fleg_blocked: "🔴 Slot ocupado",
     btn_print: "🖨️ Imprimir", btn_copy: "📋 Copiar Mermaid",
     h2_usecases: "Casos de Uso Detallados",
@@ -700,16 +702,16 @@ const T = {
     BrasilEleccion -->|Elige PPV| PPVgana[PPV ocupa el slot - CF desaparece]
     CFvsLC -->|Elige CF| SoloCF[CF activo]
     CFvsLC -->|Elige LC Fondeo| SoloLC[LC Fondeo activo]
-    style Inicio fill:#FFE600,color:#000,stroke:#e6d000
-    style BNPLOk fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style FlexOk fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style Legacy fill:#fef9e7,color:#7d6608,stroke:#f9e79f
-    style PPVbloquea fill:#fdedec,color:#922b21,stroke:#f5b7b1
-    style CFgana fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style PPVgana fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style SoloCF fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style SoloLC fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style UnaOferta fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf`
+    style Inicio fill:#3483FA,color:#fff,stroke:#2968C8
+    style BNPLOk fill:#E8F5EE,color:#008744,stroke:#00A650
+    style FlexOk fill:#E8F5EE,color:#008744,stroke:#00A650
+    style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
+    style PPVbloquea fill:#FDEBEC,color:#D12440,stroke:#F23D4F
+    style CFgana fill:#E8F5EE,color:#008744,stroke:#00A650
+    style PPVgana fill:#E8F5EE,color:#008744,stroke:#00A650
+    style SoloCF fill:#E8F5EE,color:#008744,stroke:#00A650
+    style SoloLC fill:#E8F5EE,color:#008744,stroke:#00A650
+    style UnaOferta fill:#E8F5EE,color:#008744,stroke:#00A650`
   },
 
   pt: {
@@ -762,7 +764,7 @@ const T = {
     table_legend: "<strong>Legenda:</strong> ✅ Compatível · ❌ Incompatível · ⚠️ CF Legacy e LC Financiamento correm simultaneamente · — Mesma família",
     h2_flowchart: "Fluxograma de Convivência de Produtos",
     flowchart_desc: "As ofertas são ativadas pelo MP. Cada produto ocupa um <strong style=\"color:#1a1a1a;\">slot</strong>: financiamento do negócio ou consumo (BNPL). Dentro do slot de financiamento, o merchant escolhe uma opção e as demais desaparecem.",
-    fleg_start: "🟡 Início", fleg_ok: "🟢 Disponível",
+    fleg_start: "🔵 Início", fleg_ok: "🟢 Disponível",
     fleg_legacy: "🟠 Convivência Legacy", fleg_blocked: "🔴 Slot ocupado",
     btn_print: "🖨️ Imprimir", btn_copy: "📋 Copiar Mermaid",
     h2_usecases: "Casos de Uso Detalhados",
@@ -799,16 +801,16 @@ const T = {
     BrasilEleccion -->|Escolhe PPV| PPVgana[PPV ocupa o slot - CF desaparece]
     CFvsLC -->|Escolhe CF| SoloCF[CF ativo]
     CFvsLC -->|Escolhe LC Financiamento| SoloLC[LC Financiamento ativo]
-    style Inicio fill:#FFE600,color:#000,stroke:#e6d000
-    style BNPLOk fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style FlexOk fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style Legacy fill:#fef9e7,color:#7d6608,stroke:#f9e79f
-    style PPVbloquea fill:#fdedec,color:#922b21,stroke:#f5b7b1
-    style CFgana fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style PPVgana fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style SoloCF fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style SoloLC fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style UnaOferta fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf`
+    style Inicio fill:#3483FA,color:#fff,stroke:#2968C8
+    style BNPLOk fill:#E8F5EE,color:#008744,stroke:#00A650
+    style FlexOk fill:#E8F5EE,color:#008744,stroke:#00A650
+    style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
+    style PPVbloquea fill:#FDEBEC,color:#D12440,stroke:#F23D4F
+    style CFgana fill:#E8F5EE,color:#008744,stroke:#00A650
+    style PPVgana fill:#E8F5EE,color:#008744,stroke:#00A650
+    style SoloCF fill:#E8F5EE,color:#008744,stroke:#00A650
+    style SoloLC fill:#E8F5EE,color:#008744,stroke:#00A650
+    style UnaOferta fill:#E8F5EE,color:#008744,stroke:#00A650`
   },
 
   en: {
@@ -861,7 +863,7 @@ const T = {
     table_legend: "<strong>Legend:</strong> ✅ Compatible · ❌ Incompatible · ⚠️ Legacy CF and LC Funding run simultaneously · — Same product family",
     h2_flowchart: "Product Coexistence Flowchart",
     flowchart_desc: "Offers are enabled by MP. Each product occupies a <strong style=\"color:#1a1a1a;\">slot</strong>: business funding or consumption (BNPL). Within the funding slot, the merchant chooses one option and the others disappear.",
-    fleg_start: "🟡 Start", fleg_ok: "🟢 Available",
+    fleg_start: "🔵 Start", fleg_ok: "🟢 Available",
     fleg_legacy: "🟠 Legacy Coexistence", fleg_blocked: "🔴 Slot occupied",
     btn_print: "🖨️ Print", btn_copy: "📋 Copy Mermaid",
     h2_usecases: "Detailed Use Cases",
@@ -898,16 +900,16 @@ const T = {
     BrasilEleccion -->|Chooses PPV| PPVgana[PPV takes slot - CF disappears]
     CFvsLC -->|Chooses CF| SoloCF[CF active]
     CFvsLC -->|Chooses LC Funding| SoloLC[LC Funding active]
-    style Inicio fill:#FFE600,color:#000,stroke:#e6d000
-    style BNPLOk fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style FlexOk fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style Legacy fill:#fef9e7,color:#7d6608,stroke:#f9e79f
-    style PPVbloquea fill:#fdedec,color:#922b21,stroke:#f5b7b1
-    style CFgana fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style PPVgana fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style SoloCF fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style SoloLC fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf
-    style UnaOferta fill:#d5f5e3,color:#1a6b3c,stroke:#a9dfbf`
+    style Inicio fill:#3483FA,color:#fff,stroke:#2968C8
+    style BNPLOk fill:#E8F5EE,color:#008744,stroke:#00A650
+    style FlexOk fill:#E8F5EE,color:#008744,stroke:#00A650
+    style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
+    style PPVbloquea fill:#FDEBEC,color:#D12440,stroke:#F23D4F
+    style CFgana fill:#E8F5EE,color:#008744,stroke:#00A650
+    style PPVgana fill:#E8F5EE,color:#008744,stroke:#00A650
+    style SoloCF fill:#E8F5EE,color:#008744,stroke:#00A650
+    style SoloLC fill:#E8F5EE,color:#008744,stroke:#00A650
+    style UnaOferta fill:#E8F5EE,color:#008744,stroke:#00A650`
   }
 };
 
