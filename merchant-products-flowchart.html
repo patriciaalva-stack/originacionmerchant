@@ -387,32 +387,12 @@
             color: var(--text-muted); font-size: 0.85em; letter-spacing: 0.3px;
         }
 
-        /* ── Andes X symbol replacements (no emoji) ──────────────────────── */
-        .sym {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 1.3em; height: 1.3em; border-radius: 50%;
-            font-size: 0.82em; font-weight: 800;
-            vertical-align: -0.15em; margin-right: 2px;
+        /* ── Fluent Emoji 3D icons ────────────────────────────────────────── */
+        img.ei3d {
+            width: 1.25em; height: 1.25em;
+            vertical-align: -0.25em; margin-right: 3px;
+            display: inline-block; object-fit: contain;
         }
-        .sym.ok   { background: rgba(0,166,80,0.12);  color: var(--green-dk); }
-        .sym.no   { background: rgba(231,76,60,0.12); color: var(--red); }
-        .sym.warn { background: rgba(255,119,51,0.12);color: var(--orange); }
-
-        .dot {
-            display: inline-block; width: 9px; height: 9px;
-            border-radius: 50%; margin-right: 5px; vertical-align: -1px;
-        }
-        .dot-primary { background: var(--primary); }
-        .dot-ok      { background: var(--green); }
-        .dot-warn    { background: var(--orange); }
-        .dot-no      { background: var(--red); }
-
-        .lang-tag {
-            display: inline-block; border-radius: 3px;
-            font-size: 0.7em; padding: 1px 5px; font-weight: 800;
-            letter-spacing: 0.5px; vertical-align: 0.1em; margin-right: 2px;
-        }
-        .lang-tag.br { background: #009c3b; color: #fff; }
 
         tr:hover td { background: rgba(67,76,228,0.05); }
 
@@ -592,7 +572,7 @@ graph TD
             </div>
 
             <div class="flowchart-legend">
-                <span style="background:#E8EAFF;color:#2C34B0;border:1px solid #434CE4;" data-i18n="fleg_start">🟡 Inicio</span>
+                <span style="background:#E8EAFF;color:#2C34B0;border:1px solid #434CE4;" data-i18n="fleg_start">🔵 Inicio</span>
                 <span style="background:#E6F7EF;color:#007A3D;border:1px solid #00A650;" data-i18n="fleg_ok">🟢 Disponible</span>
                 <span style="background:#FFF3E0;color:#CC3E0A;border:1px solid #FF7733;" data-i18n="fleg_legacy">🟠 Convivencia Legacy</span>
                 <span style="background:#FDECEC;color:#C0392B;border:1px solid #E74C3C;" data-i18n="fleg_blocked">🔴 Slot ocupado</span>
@@ -706,7 +686,7 @@ const T = {
     table_legend: "<strong>Leyenda:</strong> ✅ Compatible · ❌ Incompatible · ⚠️ CF Legacy y LC Fondeo corren simultáneamente · — Misma familia",
     h2_flowchart: "Flowchart de Convivencia de Productos",
     flowchart_desc: "Las ofertas las enciende MP. Cada producto ocupa un <strong style=\"color:#1a1a1a;\">slot</strong>: fondeo del negocio o consumo (BNPL). Dentro del slot de fondeo, el merchant elige una opción y las demás desaparecen.",
-    fleg_start: "🟡 Inicio", fleg_ok: "🟢 Disponible",
+    fleg_start: "🔵 Inicio", fleg_ok: "🟢 Disponible",
     fleg_legacy: "🟠 Convivencia Legacy", fleg_blocked: "🔴 Slot ocupado",
     btn_print: "🖨️ Imprimir", btn_copy: "📋 Copiar Mermaid",
     h2_usecases: "Casos de Uso Detallados",
@@ -805,7 +785,7 @@ const T = {
     table_legend: "<strong>Legenda:</strong> ✅ Compatível · ❌ Incompatível · ⚠️ CF Legacy e LC Financiamento correm simultaneamente · — Mesma família",
     h2_flowchart: "Fluxograma de Convivência de Produtos",
     flowchart_desc: "As ofertas são ativadas pelo MP. Cada produto ocupa um <strong style=\"color:#1a1a1a;\">slot</strong>: financiamento do negócio ou consumo (BNPL). Dentro do slot de financiamento, o merchant escolhe uma opção e as demais desaparecem.",
-    fleg_start: "🟡 Início", fleg_ok: "🟢 Disponível",
+    fleg_start: "🔵 Início", fleg_ok: "🟢 Disponível",
     fleg_legacy: "🟠 Convivência Legacy", fleg_blocked: "🔴 Slot ocupado",
     btn_print: "🖨️ Imprimir", btn_copy: "📋 Copiar Mermaid",
     h2_usecases: "Casos de Uso Detalhados",
@@ -904,7 +884,7 @@ const T = {
     table_legend: "<strong>Legend:</strong> ✅ Compatible · ❌ Incompatible · ⚠️ Legacy CF and LC Funding run simultaneously · — Same product family",
     h2_flowchart: "Product Coexistence Flowchart",
     flowchart_desc: "Offers are enabled by MP. Each product occupies a <strong style=\"color:#1a1a1a;\">slot</strong>: business funding or consumption (BNPL). Within the funding slot, the merchant chooses one option and the others disappear.",
-    fleg_start: "🟡 Start", fleg_ok: "🟢 Available",
+    fleg_start: "🔵 Start", fleg_ok: "🟢 Available",
     fleg_legacy: "🟠 Legacy Coexistence", fleg_blocked: "🔴 Slot occupied",
     btn_print: "🖨️ Print", btn_copy: "📋 Copy Mermaid",
     h2_usecases: "Detailed Use Cases",
@@ -973,28 +953,37 @@ function showTab(tabName, btn) {
     }
 }
 
-// ─── SYMBOL REPLACEMENT (Andes X — no emoji) ─────────────────────────────────
-// Meaningful symbols → CSS-styled spans; decorative icons → removed
+// ─── FLUENT EMOJI 3D — icon replacement ──────────────────────────────────────
+const FLUENT = 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji/assets/';
 const E_MAP = [
-    ['⚠️',  '<span class="sym warn">!</span>'],
-    ['⚠',   '<span class="sym warn">!</span>'],
-    ['✅',   '<span class="sym ok">✓</span>'],
-    ['❌',   '<span class="sym no">✗</span>'],
-    ['🟡',   '<span class="dot dot-primary"></span>'],
-    ['🟢',   '<span class="dot dot-ok"></span>'],
-    ['🟠',   '<span class="dot dot-warn"></span>'],
-    ['🔴',   '<span class="dot dot-no"></span>'],
-    ['🇧🇷', '<span class="lang-tag br">BR</span>'],
-    // Decorative icons: strip
-    ['💰',''],['⚡',''],['📈',''],['💵',''],['🏦',''],
-    ['📊',''],['🔀',''],['📝',''],['🚫',''],['📋',''],['🖨️','']
+    ['⚠️',  FLUENT + 'Warning/3D/warning_3d.png'],
+    ['⚠',   FLUENT + 'Warning/3D/warning_3d.png'],
+    ['✅',   FLUENT + 'Check%20mark%20button/3D/check_mark_button_3d.png'],
+    ['❌',   FLUENT + 'Cross%20mark/3D/cross_mark_3d.png'],
+    ['🔵',   FLUENT + 'Blue%20circle/3D/blue_circle_3d.png'],
+    ['🟡',   FLUENT + 'Yellow%20circle/3D/yellow_circle_3d.png'],
+    ['🟢',   FLUENT + 'Green%20circle/3D/green_circle_3d.png'],
+    ['🟠',   FLUENT + 'Orange%20circle/3D/orange_circle_3d.png'],
+    ['🔴',   FLUENT + 'Red%20circle/3D/red_circle_3d.png'],
+    ['🇧🇷', FLUENT + 'Flag%3A%20Brazil/3D/flag_brazil_3d.png'],
+    ['💰',   FLUENT + 'Money%20bag/3D/money_bag_3d.png'],
+    ['⚡',   FLUENT + 'High%20voltage/3D/high_voltage_3d.png'],
+    ['📈',   FLUENT + 'Chart%20increasing/3D/chart_increasing_3d.png'],
+    ['💵',   FLUENT + 'Dollar%20banknote/3D/dollar_banknote_3d.png'],
+    ['🏦',   FLUENT + 'Bank/3D/bank_3d.png'],
+    ['📊',   FLUENT + 'Bar%20chart/3D/bar_chart_3d.png'],
+    ['🔀',   FLUENT + 'Shuffle%20tracks%20button/3D/shuffle_tracks_button_3d.png'],
+    ['📝',   FLUENT + 'Memo/3D/memo_3d.png'],
+    ['🚫',   FLUENT + 'Prohibited/3D/prohibited_3d.png'],
+    ['📋',   FLUENT + 'Clipboard/3D/clipboard_3d.png'],
+    ['🖨️',  FLUENT + 'Printer/3D/printer_3d.png'],
 ];
 
 function ei(text) {
     if (!text) return text;
-    for (const [ch, rep] of E_MAP) {
-        if (text.includes(ch)) text = text.split(ch).join(rep);
-    }
+    for (const [ch, path] of E_MAP)
+        if (text.includes(ch))
+            text = text.split(ch).join(`<img src="${path}" class="ei3d" alt="${ch}" loading="lazy">`);
     return text;
 }
 
@@ -1055,14 +1044,12 @@ switchLang(currentLang);
     }
     nodes.forEach(textNode => {
         if (!textNode.parentNode) return;
-        let html = textNode.textContent;
-        for (const [ch, code] of E_MAP) {
-            if (html.includes(ch))
-                html = html.split(ch).join(`<img src="${E_CDN}${code}.png" class="ei" alt="${ch}">`);
+        const replaced = ei(textNode.textContent);
+        if (replaced !== textNode.textContent) {
+            const span = document.createElement('span');
+            span.innerHTML = replaced;
+            textNode.parentNode.replaceChild(span, textNode);
         }
-        const span = document.createElement('span');
-        span.innerHTML = html;
-        textNode.parentNode.replaceChild(span, textNode);
     });
 })();
 </script>
