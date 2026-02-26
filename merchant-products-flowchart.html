@@ -9,28 +9,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&display=swap" rel="stylesheet">
     <style>
-        /* ── Neumorphism White & Yellow ────────────────────────────────────── */
+        /* ── Neumorphism + Andes X ──────────────────────────────────────────── */
         :root {
-            --bg:          #EFEFEF;
-            --sh-dark:     #d0d0d0;
-            --sh-light:    #ffffff;
-            --yellow:      #F5B800;
-            --yellow-dark: #C49300;
-            --green:       #00A650;
-            --green-dk:    #007A3D;
-            --green-bg:    rgba(0,166,80,0.08);
-            --red:         #E74C3C;
-            --red-bg:      rgba(231,76,60,0.07);
-            --orange:      #FF7733;
-            --orange-bg:   rgba(255,119,51,0.08);
-            --text:        #2A2A2A;
-            --text-mid:    #555;
-            --text-muted:  #888;
+            --bg:             #EFEFEF;
+            --sh-dark:        #d0d0d0;
+            --sh-light:       #ffffff;
+            /* Andes X palette */
+            --primary:        #434CE4;
+            --primary-dk:     #2C34B0;
+            --primary-bg:     #E8EAFF;
+            --primary-muted:  #9C9EBF;
+            /* Semantic */
+            --green:          #00A650;
+            --green-dk:       #007A3D;
+            --red:            #E74C3C;
+            --orange:         #FF7733;
+            /* Text */
+            --text:           #2A2A2A;
+            --text-mid:       #555;
+            --text-muted:     #888;
             /* Neumorphic shadows */
-            --neu-out:     8px 8px 18px var(--sh-dark), -8px -8px 18px var(--sh-light);
-            --neu-out-sm:  4px 4px 10px var(--sh-dark), -4px -4px 10px var(--sh-light);
-            --neu-in:      inset 4px 4px 10px var(--sh-dark), inset -4px -4px 10px var(--sh-light);
-            --neu-yellow:  6px 6px 14px rgba(185,140,0,0.45), -4px -4px 12px rgba(255,255,255,0.9);
+            --neu-out:        8px 8px 18px var(--sh-dark), -8px -8px 18px var(--sh-light);
+            --neu-out-sm:     4px 4px 10px var(--sh-dark), -4px -4px 10px var(--sh-light);
+            --neu-in:         inset 4px 4px 10px var(--sh-dark), inset -4px -4px 10px var(--sh-light);
+            --neu-primary:    6px 6px 14px rgba(67,76,228,0.25), -4px -4px 12px rgba(255,255,255,0.9);
             --r-sm:  10px;
             --r-md:  16px;
             --r-lg:  22px;
@@ -71,21 +73,26 @@
             background: var(--bg);
             border: none;
             border-radius: var(--r-sm);
-            padding: 7px 11px;
-            font-size: 1.3em;
+            padding: 7px 13px;
+            font-size: 0.82em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             cursor: pointer;
+            color: var(--text-muted);
             box-shadow: var(--neu-out-sm);
-            transition: box-shadow 0.2s ease;
+            transition: all 0.2s ease;
             line-height: 1;
         }
 
         .lang-btn:hover {
             box-shadow: 3px 3px 8px var(--sh-dark), -3px -3px 8px var(--sh-light);
+            color: var(--primary);
         }
 
         .lang-btn.active {
             box-shadow: var(--neu-in);
-            background: var(--yellow);
+            background: var(--primary);
+            color: #fff;
         }
 
         /* ── Header ───────────────────────────────────────────────────────── */
@@ -98,7 +105,7 @@
             letter-spacing: -0.5px;
         }
 
-        h1 span { color: var(--yellow-dark); }
+        h1 span { color: var(--primary); }
 
         .subtitle {
             text-align: center;
@@ -118,7 +125,7 @@
             font-size: 1.35em;
             font-weight: 700;
             letter-spacing: -0.2px;
-            border-bottom: 3px solid var(--yellow);
+            border-bottom: 3px solid var(--primary);
         }
 
         h3 {
@@ -156,10 +163,10 @@
         }
 
         .tab.active {
-            background: var(--yellow);
-            color: #1a1a1a;
+            background: var(--primary);
+            color: #fff;
             font-weight: 700;
-            box-shadow: var(--neu-yellow);
+            box-shadow: var(--neu-primary);
         }
 
         .tab-content { display: none; }
@@ -190,8 +197,8 @@
             box-shadow: 10px 10px 22px var(--sh-dark), -10px -10px 22px var(--sh-light);
         }
 
-        .product-card.legacy { border-left: 4px solid #bbb; }
-        .product-card.new    { border-left: 4px solid var(--yellow); }
+        .product-card.legacy { border-left: 4px solid var(--primary-muted); }
+        .product-card.new    { border-left: 4px solid var(--primary); }
 
         .product-card h4 {
             font-size: 1em; margin-bottom: 10px;
@@ -218,8 +225,8 @@
         }
 
         .legend-box { width: 18px; height: 18px; border-radius: 4px; }
-        .legend-box.legacy       { background: #bbb; }
-        .legend-box.new          { background: var(--yellow); }
+        .legend-box.legacy       { background: var(--primary-muted); }
+        .legend-box.new          { background: var(--primary); }
         .legend-box.compatible   { background: var(--green); }
         .legend-box.incompatible { background: var(--red); }
 
@@ -242,7 +249,7 @@
             padding: 13px 16px; margin: 10px 0;
             background: var(--bg);
             border-radius: var(--r-sm);
-            border-left: 4px solid var(--yellow);
+            border-left: 4px solid var(--primary);
             color: var(--text-mid);
             font-size: 0.93em; line-height: 1.6;
             box-shadow: var(--neu-out-sm);
@@ -267,7 +274,7 @@
         }
 
         th {
-            background: var(--yellow); color: #1a1a1a;
+            background: var(--primary); color: #fff;
             font-weight: 700;
             letter-spacing: 0.2px;
         }
@@ -308,7 +315,7 @@
         /* ── Use Cases ────────────────────────────────────────────────────── */
         .use-case {
             background: var(--bg);
-            border-left: 4px solid var(--yellow);
+            border-left: 4px solid var(--primary);
             padding: 20px 24px; border-radius: var(--r-md);
             margin-bottom: 14px;
             box-shadow: var(--neu-out);
@@ -349,15 +356,16 @@
         }
 
         .btn-primary {
-            background: var(--yellow); color: #1a1a1a;
-            box-shadow: var(--neu-yellow);
+            background: var(--primary); color: #fff;
+            box-shadow: var(--neu-primary);
         }
         .btn-primary:hover {
-            box-shadow: 8px 8px 18px rgba(180,165,0,0.5), -5px -5px 14px rgba(255,255,255,0.95);
+            background: var(--primary-dk);
+            box-shadow: 8px 8px 18px rgba(44,52,176,0.35), -5px -5px 14px rgba(255,255,255,0.95);
             transform: translateY(-2px);
         }
         .btn-primary:active {
-            box-shadow: inset 3px 3px 8px rgba(160,145,0,0.4), inset -3px -3px 8px rgba(255,255,255,0.8);
+            box-shadow: inset 3px 3px 8px rgba(30,36,130,0.4), inset -3px -3px 8px rgba(255,255,255,0.7);
             transform: translateY(0);
         }
 
@@ -379,19 +387,34 @@
             color: var(--text-muted); font-size: 0.85em; letter-spacing: 0.3px;
         }
 
-        /* ── 3D Emoji images ──────────────────────────────────────────────── */
-        img.ei {
-            height: 1.25em;
-            width:  1.25em;
-            vertical-align: -0.28em;
-            display: inline-block;
-            object-fit: contain;
+        /* ── Andes X symbol replacements (no emoji) ──────────────────────── */
+        .sym {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 1.3em; height: 1.3em; border-radius: 50%;
+            font-size: 0.82em; font-weight: 800;
+            vertical-align: -0.15em; margin-right: 2px;
         }
-        h1 img.ei, h2 img.ei { height: 1.1em; width: 1.1em; vertical-align: -0.15em; }
-        .tab img.ei { height: 1.15em; width: 1.15em; vertical-align: -0.2em; }
-        .flowchart-legend img.ei { height: 1.15em; width: 1.15em; vertical-align: -0.2em; }
+        .sym.ok   { background: rgba(0,166,80,0.12);  color: var(--green-dk); }
+        .sym.no   { background: rgba(231,76,60,0.12); color: var(--red); }
+        .sym.warn { background: rgba(255,119,51,0.12);color: var(--orange); }
 
-        tr:hover td { background: rgba(245,184,0,0.07); }
+        .dot {
+            display: inline-block; width: 9px; height: 9px;
+            border-radius: 50%; margin-right: 5px; vertical-align: -1px;
+        }
+        .dot-primary { background: var(--primary); }
+        .dot-ok      { background: var(--green); }
+        .dot-warn    { background: var(--orange); }
+        .dot-no      { background: var(--red); }
+
+        .lang-tag {
+            display: inline-block; border-radius: 3px;
+            font-size: 0.7em; padding: 1px 5px; font-weight: 800;
+            letter-spacing: 0.5px; vertical-align: 0.1em; margin-right: 2px;
+        }
+        .lang-tag.br { background: #009c3b; color: #fff; }
+
+        tr:hover td { background: rgba(67,76,228,0.05); }
 
         @media print {
             body { background: white; }
@@ -406,9 +429,9 @@
 
     <!-- LANGUAGE SWITCHER -->
     <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="es" onclick="switchLang('es')" title="Español">🇪🇸</button>
-        <button class="lang-btn" data-lang="pt" onclick="switchLang('pt')" title="Português">🇧🇷</button>
-        <button class="lang-btn" data-lang="en" onclick="switchLang('en')" title="English">🇺🇸</button>
+        <button class="lang-btn active" data-lang="es" onclick="switchLang('es')" title="Español">ES</button>
+        <button class="lang-btn" data-lang="pt" onclick="switchLang('pt')" title="Português">PT</button>
+        <button class="lang-btn" data-lang="en" onclick="switchLang('en')" title="English">EN</button>
     </div>
 
     <h1>Merchant <span>Products</span></h1>
@@ -555,7 +578,7 @@ graph TD
     BrasilEleccion -->|Elige PPV| PPVgana[PPV ocupa el slot - CF desaparece]
     CFvsLC -->|Elige CF| SoloCF[CF activo]
     CFvsLC -->|Elige LC Fondeo| SoloLC[LC Fondeo activo]
-    style Inicio fill:#F5B800,color:#1a1a1a,stroke:#C49300
+    style Inicio fill:#434CE4,color:#fff,stroke:#2C34B0
     style BNPLOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style FlexOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
@@ -569,7 +592,7 @@ graph TD
             </div>
 
             <div class="flowchart-legend">
-                <span style="background:#FFF0B3;color:#7a5000;border:1px solid #C49300;" data-i18n="fleg_start">🟡 Inicio</span>
+                <span style="background:#E8EAFF;color:#2C34B0;border:1px solid #434CE4;" data-i18n="fleg_start">🟡 Inicio</span>
                 <span style="background:#E6F7EF;color:#007A3D;border:1px solid #00A650;" data-i18n="fleg_ok">🟢 Disponible</span>
                 <span style="background:#FFF3E0;color:#CC3E0A;border:1px solid #FF7733;" data-i18n="fleg_legacy">🟠 Convivencia Legacy</span>
                 <span style="background:#FDECEC;color:#C0392B;border:1px solid #E74C3C;" data-i18n="fleg_blocked">🔴 Slot ocupado</span>
@@ -720,7 +743,7 @@ const T = {
     BrasilEleccion -->|Elige PPV| PPVgana[PPV ocupa el slot - CF desaparece]
     CFvsLC -->|Elige CF| SoloCF[CF activo]
     CFvsLC -->|Elige LC Fondeo| SoloLC[LC Fondeo activo]
-    style Inicio fill:#F5B800,color:#1a1a1a,stroke:#C49300
+    style Inicio fill:#434CE4,color:#fff,stroke:#2C34B0
     style BNPLOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style FlexOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
@@ -819,7 +842,7 @@ const T = {
     BrasilEleccion -->|Escolhe PPV| PPVgana[PPV ocupa o slot - CF desaparece]
     CFvsLC -->|Escolhe CF| SoloCF[CF ativo]
     CFvsLC -->|Escolhe LC Financiamento| SoloLC[LC Financiamento ativo]
-    style Inicio fill:#F5B800,color:#1a1a1a,stroke:#C49300
+    style Inicio fill:#434CE4,color:#fff,stroke:#2C34B0
     style BNPLOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style FlexOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
@@ -918,7 +941,7 @@ const T = {
     BrasilEleccion -->|Chooses PPV| PPVgana[PPV takes slot - CF disappears]
     CFvsLC -->|Chooses CF| SoloCF[CF active]
     CFvsLC -->|Chooses LC Funding| SoloLC[LC Funding active]
-    style Inicio fill:#F5B800,color:#1a1a1a,stroke:#C49300
+    style Inicio fill:#434CE4,color:#fff,stroke:#2C34B0
     style BNPLOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style FlexOk fill:#E6F7EF,color:#007A3D,stroke:#00A650
     style Legacy fill:#FFF3E0,color:#CC3E0A,stroke:#FF7733
@@ -950,21 +973,27 @@ function showTab(tabName, btn) {
     }
 }
 
-// ─── 3D EMOJI IMAGES ─────────────────────────────────────────────────────────
-const E_CDN = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple@15.0.1/img/apple/64/';
+// ─── SYMBOL REPLACEMENT (Andes X — no emoji) ─────────────────────────────────
+// Meaningful symbols → CSS-styled spans; decorative icons → removed
 const E_MAP = [
-    ['🇧🇷','1f1e7-1f1f7'], ['⚠️','26a0-fe0f'], ['🖨️','1f5a8-fe0f'],
-    ['💰','1f4b0'], ['⚡','26a1'],  ['📈','1f4c8'], ['💵','1f4b5'],
-    ['🏦','1f3e6'], ['📊','1f4ca'], ['🔀','1f500'], ['📝','1f4dd'],
-    ['🚫','1f6ab'], ['✅','2705'],  ['❌','274c'],  ['📋','1f4cb'],
-    ['🟡','1f7e1'], ['🟢','1f7e2'], ['🟠','1f7e0'], ['🔴','1f534']
+    ['⚠️',  '<span class="sym warn">!</span>'],
+    ['⚠',   '<span class="sym warn">!</span>'],
+    ['✅',   '<span class="sym ok">✓</span>'],
+    ['❌',   '<span class="sym no">✗</span>'],
+    ['🟡',   '<span class="dot dot-primary"></span>'],
+    ['🟢',   '<span class="dot dot-ok"></span>'],
+    ['🟠',   '<span class="dot dot-warn"></span>'],
+    ['🔴',   '<span class="dot dot-no"></span>'],
+    ['🇧🇷', '<span class="lang-tag br">BR</span>'],
+    // Decorative icons: strip
+    ['💰',''],['⚡',''],['📈',''],['💵',''],['🏦',''],
+    ['📊',''],['🔀',''],['📝',''],['🚫',''],['📋',''],['🖨️','']
 ];
 
 function ei(text) {
     if (!text) return text;
-    for (const [ch, code] of E_MAP) {
-        if (text.includes(ch))
-            text = text.split(ch).join(`<img src="${E_CDN}${code}.png" class="ei" alt="${ch}">`);
+    for (const [ch, rep] of E_MAP) {
+        if (text.includes(ch)) text = text.split(ch).join(rep);
     }
     return text;
 }
