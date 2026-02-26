@@ -983,7 +983,7 @@ function ei(text) {
     if (!text) return text;
     for (const [ch, path] of E_MAP)
         if (text.includes(ch))
-            text = text.split(ch).join(`<img src="${path}" class="ei3d" alt="${ch}" loading="lazy">`);
+            text = text.split(ch).join(`<img src="${path}" class="ei3d" alt="${ch}">`);
     return text;
 }
 
@@ -1039,7 +1039,10 @@ switchLang(currentLang);
     const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
     const nodes = [];
     let n;
+    const mermaidEl = document.getElementById('mermaid-diagram');
     while ((n = walker.nextNode())) {
+        // Skip text nodes inside the mermaid diagram (must remain plain text)
+        if (mermaidEl && mermaidEl.contains(n)) continue;
         if (E_MAP.some(([e]) => n.textContent.includes(e))) nodes.push(n);
     }
     nodes.forEach(textNode => {
