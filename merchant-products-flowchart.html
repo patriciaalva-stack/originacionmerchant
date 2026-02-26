@@ -38,7 +38,7 @@
             --r-lg:  22px;
         }
 
-        html { font-size: 15px; }
+        html { font-size: 16px; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -957,7 +957,6 @@ function showTab(tabName, btn) {
 const FLUENT = 'https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji/assets/';
 const E_MAP = [
     ['⚠️',  FLUENT + 'Warning/3D/warning_3d.png'],
-    ['⚠',   FLUENT + 'Warning/3D/warning_3d.png'],
     ['✅',   FLUENT + 'Check%20mark%20button/3D/check_mark_button_3d.png'],
     ['❌',   FLUENT + 'Cross%20mark/3D/cross_mark_3d.png'],
     ['🔵',   FLUENT + 'Blue%20circle/3D/blue_circle_3d.png'],
@@ -981,6 +980,8 @@ const E_MAP = [
 
 function ei(text) {
     if (!text) return text;
+    // Normalize ⚠ without VS-16 to ⚠️ before processing
+    text = text.replace(/⚠(?!\uFE0F)/g, '⚠️');
     for (const [ch, path] of E_MAP)
         if (text.includes(ch))
             text = text.split(ch).join(`<img src="${path}" class="ei3d" alt="${ch}">`);
