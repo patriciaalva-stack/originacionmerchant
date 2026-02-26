@@ -393,6 +393,11 @@
             vertical-align: -0.25em; margin-right: 3px;
             display: inline-block; object-fit: contain;
         }
+        /* Brazil flag is rectangular — let it keep natural proportions */
+        img.ei3d[src*="flagcdn"] {
+            width: auto; height: 1em;
+            border-radius: 2px;
+        }
 
         tr:hover td { background: rgba(67,76,228,0.05); }
 
@@ -964,7 +969,7 @@ const E_MAP = [
     ['🟢',   FLUENT + 'Green%20circle/3D/green_circle_3d.png'],
     ['🟠',   FLUENT + 'Orange%20circle/3D/orange_circle_3d.png'],
     ['🔴',   FLUENT + 'Red%20circle/3D/red_circle_3d.png'],
-    ['🇧🇷', FLUENT + 'Flag%3A%20Brazil/3D/flag_brazil_3d.png'],
+    ['🇧🇷', 'https://flagcdn.com/32x24/br.png'],
     ['💰',   FLUENT + 'Money%20bag/3D/money_bag_3d.png'],
     ['⚡',   FLUENT + 'High%20voltage/3D/high_voltage_3d.png'],
     ['📈',   FLUENT + 'Chart%20increasing/3D/chart_increasing_3d.png'],
