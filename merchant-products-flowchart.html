@@ -407,9 +407,71 @@
             .tabs, .button-group, .lang-switcher { display: none; }
             .tab-content { display: block !important; }
         }
+
+        /* ── Password gate ─────────────────────────────────────────────────── */
+        #gate {
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--bg);
+            display: flex; align-items: center; justify-content: center;
+        }
+        #gate.hidden { display: none; }
+        .gate-card {
+            background: var(--bg);
+            border-radius: var(--r-lg);
+            padding: 48px 52px;
+            box-shadow: var(--neu-out);
+            text-align: center;
+            width: 340px; max-width: 90vw;
+        }
+        .gate-logo { font-size: 2.6em; margin-bottom: 14px; }
+        .gate-title { color: var(--primary); font-size: 1.35em; font-weight: 700; margin-bottom: 6px; }
+        .gate-sub { color: var(--text-muted); font-size: 0.88em; margin-bottom: 28px; }
+        #gate-input {
+            width: 100%; padding: 12px 16px;
+            border: none; outline: none;
+            background: var(--bg);
+            border-radius: var(--r-sm);
+            box-shadow: var(--neu-in);
+            font-size: 1em; font-family: inherit;
+            color: var(--text); text-align: center;
+            letter-spacing: 4px; margin-bottom: 14px;
+            transition: box-shadow .2s;
+        }
+        #gate-input::placeholder { letter-spacing: 1px; color: var(--text-muted); }
+        #gate-input.error { box-shadow: inset 4px 4px 10px rgba(231,76,60,.2), inset -4px -4px 10px #fff; }
+        .gate-btn {
+            width: 100%; padding: 12px;
+            border: none; cursor: pointer;
+            background: var(--primary); color: #fff;
+            border-radius: var(--r-sm);
+            font-size: 1em; font-weight: 700; font-family: inherit;
+            box-shadow: var(--neu-primary);
+            transition: opacity .15s;
+        }
+        .gate-btn:hover { opacity: .88; }
+        #gate-err {
+            color: var(--red); font-size: 0.83em;
+            margin-top: 12px; display: none;
+        }
     </style>
 </head>
 <body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+    <div class="gate-card">
+        <div class="gate-logo">🔐</div>
+        <h2 class="gate-title">Acceso Restringido</h2>
+        <p class="gate-sub">Ingresa la contraseña para continuar</p>
+        <input id="gate-input" type="password" placeholder="••••••••"
+               onkeydown="if(event.key==='Enter')checkGate()"
+               autocomplete="current-password">
+        <button class="gate-btn" onclick="checkGate()">Entrar →</button>
+        <p id="gate-err">Contraseña incorrecta</p>
+    </div>
+</div>
+<script>if(sessionStorage.getItem('ok')==='1')document.getElementById('gate').classList.add('hidden');</script>
+
 <div class="container">
 
     <!-- LANGUAGE SWITCHER -->
@@ -938,6 +1000,23 @@ const T = {
     style UnaOferta fill:#E6F7EF,color:#007A3D,stroke:#00A650`
   }
 };
+
+// ─── PASSWORD GATE ───────────────────────────────────────────────────────────
+function checkGate() {
+    const v = document.getElementById('gate-input').value;
+    const input = document.getElementById('gate-input');
+    if (btoa(v.toLowerCase().trim()) === 'bWVyY2hhbnRz') {
+        sessionStorage.setItem('ok', '1');
+        document.getElementById('gate').remove();
+        input.removeEventListener('keydown', null);
+    } else {
+        document.getElementById('gate-err').style.display = 'block';
+        input.classList.add('error');
+        input.value = '';
+        input.focus();
+        setTimeout(() => input.classList.remove('error'), 1400);
+    }
+}
 
 // ─── MERMAID ────────────────────────────────────────────────────────────────
 mermaid.initialize({ startOnLoad: false, theme: 'default',
